@@ -1,0 +1,3 @@
+modelo MVC
+plantillas me permite usar condicionales para renderizar 
+Vistas son logica de negocio parar render 

@@ -1,0 +1,14 @@
+abrir la terminal de comandos
+	-py manage.py shell
+
+Crear un registro en la base de datos 
+	-from shop.models import Productos
+	-q = Productos(sku="65879641", name="zapatos favela", price=367, stock= 15) 
+	-q.save()
+
+obtener listado de productos
+
+
+crear super usuario  |  nota: se debe haber realizado la primer migracion para acceder a esta funcionalidad
+	-Crear un superusuario
+        -py manage.py createsuperuser
