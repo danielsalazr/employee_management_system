@@ -1,3 +1,4 @@
+from ast import Delete
 from django.shortcuts import render
 from  .models import *
 from django.http import HttpResponse, JsonResponse
@@ -23,18 +24,31 @@ class IndexView(generic.ListView):
         #traerlas desde las mas recientes hasta las mas antiguas con el -pub_date
         return Empleados.objects.order_by("nombre")[:5]
 
-def index(request):
-    #return render(request, 'shop/index.html', {'productos': productos})
-    return render(request, 'empleados/index.html', )
+# def index(request):
+#     #return render(request, 'shop/index.html', {'productos': productos})
+#     return render(request, 'empleados/index.html', )
 
 def crearEmpleado(request):
     return render(request, 'empleados/crearEmpleado.html')
+
+def actualizarEmpleado(request):
+    return render(request, 'empleados/actualizarEmpleado.html')
+
+def eliminarEmpleado(request):
+    return render(request, 'empleados/eliminarEmpleado.html')
+
+def consultarEmpleado(request):
+    return render(request, 'empleados/consultarEmpleado.html')
+
+def devolverConsulta(request):
+    print (request.data)
 
 class EmpleadosView(APIView):
 
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request, *args, **kwargs):
+
         personal = Empleados.objects.all()
         serializer = EmpleadosSerializer(personal, many =True)
         return Response(serializer.data)
@@ -50,3 +64,19 @@ class EmpleadosView(APIView):
             print("se guardo correctamente")
             #print(empleados_serializer.data)
         return Response("Empleado creado")
+
+    #por cuestiones de tiempo la actualizacion y elminacion formulario lo realizo sin verificacion
+    def delete(self, request,*args, **kwargs):
+        print(request.data)
+        print(request.data["nombre"])
+        Empleados.objects.filter(nombre=request.data["nombre"], numero_documento=request.data["numero_documento"]).delete()
+
+        return Response("Eliminado")
+
+    def put(self, request,*args, **kwargs):
+        print(request.data)
+        print(request.data["numero_documento"])
+        Empleados.objects.filter(numero_documento=request.data["numero_documento"]).update( nombre=request.data["nombre"], apellido=request.data["apellido"], tipo_documento = request.data["tipo_documento"], correo = request.data["correo"], telefono= request.data["telefono"], tipo_sangre= request.data["tipo_sangre"])
+        pass
+
+        return Response("Actualizado")

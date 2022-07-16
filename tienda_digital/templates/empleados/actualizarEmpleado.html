@@ -21,6 +21,19 @@
             <h4 class="mb-3">Formulario de creacion de productos</h4>
             <form class="needs-validation" onsubmit="">
               <div class="row g-3">
+                
+                <div class="col-sm-6">
+                    <label htmlfor="lastName" class="form-label">numero de documento </label>
+                    <input
+                      onchange=""
+                      type ="number"
+                      class="form-control"
+                      id="numero_documento"
+                      placeholder=""
+                      required
+                    />
+                  </div>
+
                 <div class="col-sm-6">
                   <label htmlfor="firstName" class="form-label"> Nombre </label>
                   <input
@@ -55,17 +68,7 @@
                     required
                   />
                 </div>
-                <div class="col-sm-6">
-                  <label htmlfor="lastName" class="form-label"> numero de documento </label>
-                  <input
-                    onchange=""
-                    type ="number"
-                    class="form-control"
-                    id="numero_documento"
-                    placeholder=""
-                    required
-                  />
-                </div>
+                
                 <div class="col-sm-6">
                   <label htmlfor="lastName" class="form-label"> correo </label>
                   <input
@@ -121,7 +124,7 @@
               class="w-100 btn btn-primary btn-lg"
               onclick="crearEmpleado()"
             >
-              Crear Empleado
+              Actualizar Informacion de empleado
             </button>
           </div>
         </div>
@@ -185,7 +188,7 @@
         axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
 
         axios({
-            method: 'post',
+            method: 'put',
             url: url,
             data: formData,
             // {
