@@ -10,6 +10,7 @@ class Empleados (models.Model):
     correo = models.CharField(max_length=70)
     telefono = models.CharField(max_length=50)
     tipo_sangre = models.CharField(max_length=10)
+    foto = models.ImageField(upload_to='empleados/photo')
 
 
 class Estudios(models.Model):

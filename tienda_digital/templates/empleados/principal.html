@@ -1,0 +1,13 @@
+{% extends 'index.html' %}
+
+{% block container %}
+
+    <h1>Ver empleados</h1>
+    <a type="button" class="w-100 btn btn-lg btn-outline-primary my-2" href="{% url 'empleados:listaempleado' %}" >Ver registro de empleados</a>
+    <a type="button" class="w-100 btn btn-lg btn-outline-primary my-2" href="{% url 'empleados:consultar' %}" >Buscar un empleado</a>
+    <a type="button" class="w-100 btn btn-lg btn-outline-primary my-2" href="{% url 'empleados:crearempleado' %}">Crear un empleado</a>
+    <a type="button" class="w-100 btn btn-lg btn-outline-primary my-2" href="{% url 'empleados:estudios' %}">Ingresar estudios de empleado</a>
+    <a type="button" class="w-100 btn btn-lg btn-outline-primary my-2" href="{% url 'empleados:experiencia' %}">Ingresar Experiencia de empleado</a>
+    <a type="button" class="w-100 btn btn-lg btn-outline-primary my-2" href="{% url 'empleados:actualizacion' %}">Actualizar datos empleado</a>
+    <a type="button" class="w-100 btn btn-lg btn-outline-primary my-2" href="{% url 'empleados:eliminacion' %}">Borrar empleado</a>
+{% endblock container %}

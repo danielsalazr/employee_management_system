@@ -2,31 +2,38 @@ from ast import Delete
 from django.shortcuts import render
 from  .models import *
 from django.http import HttpResponse, JsonResponse
-from urllib import request
-from .serializers import EmpleadosSerializer
+from urllib import request, response
+from .serializers import EmpleadosSerializer, EstudiosSerializer, ExperienciaSerializer
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.parsers import MultiPartParser,FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from django.views import generic
 
+from django.conf import settings
+    
+    
 # Create your views here.
-class IndexView(generic.ListView):
-    template_name= "empleados/index.html"
+
+class IndexView(generic.TemplateView):
+    template_name = "empleados/principal.html"
+
+#Vista del listado completo de empleados
+class ListV(generic.ListView):
+    template_name= "empleados/verEmpleados.html"
     context_object_name = "empleados"
 
     def get_queryset(self):
         """return de last five published questions"""
         #traerlas desde las mas recientes hasta las mas antiguas con el -pub_date
-        return Empleados.objects.order_by("nombre")[:5]
+        return Empleados.objects.order_by("nombre")#[:5]
 
-# def index(request):
-#     #return render(request, 'shop/index.html', {'productos': productos})
-#     return render(request, 'empleados/index.html', )
+
 
 def crearEmpleado(request):
     return render(request, 'empleados/crearEmpleado.html')
@@ -43,6 +50,33 @@ def consultarEmpleado(request):
 def devolverConsulta(request):
     print (request.data)
 
+def consultarUno(request):
+    if 'busqueda' in request.GET:
+        #print(request.GET['parametro'])
+        busqueda= request.GET['busqueda']
+        documento = busqueda
+
+            
+        #busqueda = Empleados.objects.filter(numero_documento__contains=documento)
+        busqueda = Empleados.objects.get(numero_documento__contains=documento)
+        estudios = Estudios.objects.filter(num_documento=documento)
+        experiencia = Experiencia_laboral.objects.filter(n_documento=documento)
+        print(busqueda.nombre)
+        #busqueda.foto = settings.MEDIA_ROOT / str(busqueda.foto)
+        return render(
+            request, 'empleados/verUnEmpleado.html', 
+            {
+                'empleados': busqueda,
+                'estudios': estudios,
+                'experiencia':experiencia
+            }
+        )
+
+    return response("Error")
+    #print(busqueda)
+    return render(request, 'empleados/verUnEmpleado.html', {'empleados': busqueda})
+
+
 class EmpleadosView(APIView):
 
     parser_classes = (MultiPartParser, FormParser)
@@ -54,29 +88,57 @@ class EmpleadosView(APIView):
         return Response(serializer.data)
 
     def post(self, request,*args, **kwargs):
-        print(request.data)
-        #print(request.data['nombre'])
-        #q=Empleados(nombre ="daniel", apellido= "salazar", tipo_documento = "cc", numero_documento=56987826, correo="salazar@hotmail.com",telefono= 3240160, tipo_sangre="A+")
+        #print(request.data)
         empleados_serializer = EmpleadosSerializer(data=request.data)
         if empleados_serializer.is_valid():
-            empleados_serializer.save()
-            print(empleados_serializer.data)
-            print("se guardo correctamente")
-            #print(empleados_serializer.data)
-        return Response("Empleado creado")
+            empleado = empleados_serializer.save()
+
+        return Response(EmpleadosSerializer(empleado).data)
+
 
     #por cuestiones de tiempo la actualizacion y elminacion formulario lo realizo sin verificacion
     def delete(self, request,*args, **kwargs):
-        print(request.data)
-        print(request.data["nombre"])
-        Empleados.objects.filter(nombre=request.data["nombre"], numero_documento=request.data["numero_documento"]).delete()
+        #print(request.data["nombre"])
+        empleado = Empleados.objects.get(nombre=request.data["nombre"], numero_documento=request.data["numero_documento"])
+        if empleado:
+            empleado.delete()
 
         return Response("Eliminado")
 
     def put(self, request,*args, **kwargs):
         print(request.data)
         print(request.data["numero_documento"])
-        Empleados.objects.filter(numero_documento=request.data["numero_documento"]).update( nombre=request.data["nombre"], apellido=request.data["apellido"], tipo_documento = request.data["tipo_documento"], correo = request.data["correo"], telefono= request.data["telefono"], tipo_sangre= request.data["tipo_sangre"])
-        pass
+        Empleados.objects.filter(numero_documento=request.data["numero_documento"]).update( nombre=request.data["nombre"], apellido=request.data["apellido"], tipo_documento = request.data["tipo_documento"], correo = request.data["correo"], telefono= request.data["telefono"], tipo_sangre= request.data["tipo_sangre"], foto= request.data['foto'])
 
         return Response("Actualizado")
+
+
+class ExperienceView(generic.TemplateView):
+    template_name = "empleados/IngresarExperiencia.html"
+
+@api_view(['POST'])
+def crearExperiencia(request):
+    experiencia_serializer = ExperienciaSerializer(data=request.data)
+    if experiencia_serializer.is_valid():
+        print("True")
+        experiencia = experiencia_serializer.save()
+
+    return Response(ExperienciaSerializer(experiencia).data)
+
+
+
+class StudiesView(generic.TemplateView):
+    template_name = "empleados/IngresarEstudios.html"
+
+@api_view(['POST'])
+def crearEstudios(request):
+    estudios_serializer = EstudiosSerializer(data=request.data)
+    print(request.data)
+    print(request.data['num_documento'])
+    if estudios_serializer.is_valid():
+        print("True")
+        #q= Estudios.objects
+        #q.create(num_documento=Empleados.objects.get(numero_documento=), anio=2015, mes=10, estudio="Gramatica",institucion="USC",titulo_obtenido="master en gramatica")
+        estudios= estudios_serializer.save()
+
+    return Response(EstudiosSerializer(estudios).data)

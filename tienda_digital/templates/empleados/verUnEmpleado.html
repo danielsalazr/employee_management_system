@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+
+{% block container %}
+<div class="container text-center" >
+
+    {% if empleados %}  
+
+    <h1>{{empleados.nombre}} {{empleados.apellido}}</h1>
+    {% comment %} <p>{{empleados.foto}}</p> {% endcomment %}
+    <img class="my-2" src="/media/{{empleados.foto}}" style="width:350px; heigth:400px; border-radius: 10px;" alt="">
+    <p class="fs-4"><b>Telefono:</b>  {{empleados.telefono}}</p>
+    <p class="fs-4"><b>Correo:</b>  {{empleados.correo}}</p>
+    <p class="fs-4"> <b>Tipo de documento:</b>  {{empleados.tipo_documento}} {{empleados.numero_documento}}</p>
+    <p class="fs-4"> <b>Tipo de Sangre: </b>  {{empleados.tipo_sangre}}</p>
+
+    
+    {% if estudios %}
+    <h2 class="mb-3">Estudios realizados</h2>
+    <hr class="mb-4">
+    <div class="table-responsive">
+        {% comment %} <div class="col align-self-start"> {% endcomment %}
+            {% comment %} <a class="btn btn-warning  mt-4 w-100" href="{% url 'dibujantes:principal' %}"> Regresar a pagina principal</a> {% endcomment %}
+            {% comment %} <a class="btn btn-info  mt-4 w-100" href="{% url 'dibujantes:busqueda' %}"> Realizar otra busqueda</a> {% endcomment %}
+            {% comment %} <hr class="mb-4"> {% endcomment %}
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Año</th>
+                        <th scope="col">Mes</th>
+                        <th scope="col">Estudio</th>
+                        <th scope="col">Institucion</th>
+                        <th scope="col">Titulo Obtenido</th>
+                    </tr>
+                </thead>  
+                
+                <tbody>
+                    {% for titulos in estudios  %}
+                    <tr>
+                        <td class="">{{titulos.anio }}</td>
+                        <td class="">{{titulos.mes}}</td>
+                        <td class="">{{titulos.estudio}}</td>
+                        <td class="">{{titulos.institucion}}</td>
+                        <td class="">{{titulos.titulo_obtenido}}</td>
+                    </tr>
+                    {% endfor %}             
+                </tbody>
+                
+            </table>
+    </div>
+    {% endif %}
+
+    {% if experiencia %}
+
+    
+
+    <h2 class="mb-3">Experiencia</h2>
+    <hr class="mb-4">
+    <div class="table-responsive">
+        {% comment %} <div class="col align-self-start"> {% endcomment %}
+            {% comment %} <a class="btn btn-warning  mt-4 w-100" href="{% url 'dibujantes:principal' %}"> Regresar a pagina principal</a> {% endcomment %}
+            {% comment %} <a class="btn btn-info  mt-4 w-100" href="{% url 'dibujantes:busqueda' %}"> Realizar otra busqueda</a> {% endcomment %}
+            {% comment %} <hr class="mb-4"> {% endcomment %}
+            <table class="table table-striped table-hover table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Año</th>
+                        <th scope="col">Mes</th>
+                        <th scope="col">Empresa</th>
+                        <th scope="col">Jefe</th>
+                        <th scope="col">Cargo</th>
+                        <th scope="col">Responsabilidades</th>
+                        <th scope="col">Logros</th>
+                    </tr>
+                </thead>  
+                
+                <tbody>
+                    {% for jobs in experiencia  %}
+                    <tr>
+                        <td class="">{{jobs.anio }}</td>
+                        <td class="">{{jobs.mes}}</td>
+                        <td class="">{{jobs.empresa}}</td>
+                        <td class="">{{jobs.jefe_inmediato}}</td>
+                        <td class="">{{jobs.cargo}}</td>
+                        <td class="">{{jobs.responsabilidades}}</td>
+                        <td class="">{{jobs.logros}}</td>
+                    </tr>
+                    {% endfor %}             
+                </tbody>
+                
+            </table>
+    </div>
+    
+    {% endif %}
+
+
+</div>
+
+{% else %}
+    <p>No hay empleados disponibles.</p>
+{% endif %}
+<a class="btn btn-primary  mt-4 w-100" href="{% url 'empleados:consultar' %}"> Realizar otra busqueda</a>
+<a class="btn btn-warning  mt-4 w-100" href="{% url 'empleados:index' %}"> Regresar al menu principal</a>
+{% endblock container %}

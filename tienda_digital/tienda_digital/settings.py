@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-x!*!tii*vbsg)9^(u^^8b*poik000nnf8iw!l6(&xwv6y#do3^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','*']
 
 
 # Application definition
@@ -60,6 +60,7 @@ CORS_ALLOW_HEADERS = [
     'x-csrf-token',
     'x-requested-with'
 ]
+
 ROOT_URLCONF = 'tienda_digital.urls'
 
 TEMPLATES = [
@@ -139,7 +140,6 @@ STATICFILES_DIRS = (
 #STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 MEDIA_URL = '/media/'
 
 # remove STATIC_ROOT

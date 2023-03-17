@@ -12,3 +12,9 @@ obtener listado de productos
 crear super usuario  |  nota: se debe haber realizado la primer migracion para acceder a esta funcionalidad
 	-Crear un superusuario
         -py manage.py createsuperuser
+
+ingresar registros one to many con foreign key
+	-q=Estudios.objects
+	-q.create(num_documento=Empleados.objects.get(numero_documento=1001080786), anio=2015, mes=10, estudio="Gramatica",institucion="USC",titulo_obtenido="master en gramatica")
+	-q.create(num_documento=Empleados.objects.get(numero_documento=65897423), anio=2012, mes=8, estudio="Ingenieria electronica",institucion="USC",titulo_obtenido="Ingeniero electronico")
+	-q.create(num_documento=Empleados.objects.get(numero_documento=65897423), anio=2012, mes=8, estudio="Desarrollo Web",institucion="USC",titulo_obtenido="Frontend Developer")

@@ -47,6 +47,7 @@
                       <input onchange="" 
                       type="number"
                       class="form-control"
+                      step="0.01"
                       id="precio"
                       placeholder="Precio $$$"
                       required
@@ -74,9 +75,9 @@
                     class="form-control"
                     id="categoria"
                     placeholder="Ropa, zapatos, vestidos de banio..."
-                    Value={'{'}data.categoria{'}'}
+                    Value=""
                     required
-                    />;
+                    />
                     <div class="invalid-feedback">
                       Please enter your shipping address.
                     </div>
@@ -115,19 +116,26 @@
             let data = {
                 name:"",
                 sku: "",
-                precio:0,
+                price:0,
                 stock: 0,
-                categoria: "",
+                //categoria: "",
                 image:"",
             }
 
             data.name = document.getElementById("name").value
             data.sku = document.getElementById("sku").value
-            data.precio = document.getElementById("precio").value
-            stock.sku = document.getElementById("stock").value
-            data.image = document.getElementById("image").value
+            data.price = document.getElementById("precio").valueAsNumber
+            data.stock = document.getElementById("stock").valueAsNumber
+            data.image = document.getElementById("image").files[0]
             console.log(data.name);
-            console.log(data.image);
+            console.log(data.image)
+
+            const formData = new FormData();
+            formData.append('sku', data.sku);
+            formData.append('name', data.name);
+            formData.append('price', parseFloat(data.price));
+            formData.append('stock', data.stock);
+            formData.append('image', data.image);
 
             axios.defaults.headers = {
                 "Content-Type": "application/json",
@@ -140,7 +148,8 @@
             axios({
                 method: 'post',
                 url: url,
-                data: data,
+                //data: data,
+                data: formData,
                 // {
                 //   name:data.name,
                 //   sku:data.sku,

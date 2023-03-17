@@ -71,8 +71,9 @@ class ShopView(APIView):
         print(request)
         shop_serializer = ShopSerializer(data=request.data)
         if shop_serializer.is_valid():
-            #shop_serializer.save()
-            print(shop_serializer.data)
+            shop_serializer.save()
+            #print(shop_serializer.data)
+            print("Insercion lograda")
             #print("we did it")
             
 
