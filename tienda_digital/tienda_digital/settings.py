@@ -9,9 +9,12 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import environ
 from pathlib import Path
 import os
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x!*!tii*vbsg)9^(u^^8b*poik000nnf8iw!l6(&xwv6y#do3^'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -88,9 +91,9 @@ WSGI_APPLICATION = 'tienda_digital.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'empleados',
-        'USER': 'daniel',
-        'PASSWORD': '3240160',
+        'NAME': env.str('NAME_DB'),
+        'USER': env.str('USER_DB'),
+        'PASSWORD': env.str('PASS_DB'), 
         'HOST': '127.0.0.1',
         'PORT': '3306',
     },
