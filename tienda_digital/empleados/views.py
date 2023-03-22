@@ -114,7 +114,7 @@ class EmpleadosView(APIView):
 
 
 class ExperienceView(generic.TemplateView):
-    template_name = "empleados/IngresarExperiencia.html"
+    template_name = "empleados/ingresarExperiencia.html"
 
 @api_view(['POST'])
 def crearExperiencia(request):
@@ -128,7 +128,7 @@ def crearExperiencia(request):
 
 
 class StudiesView(generic.TemplateView):
-    template_name = "empleados/IngresarEstudios.html"
+    template_name = "empleados/ingresarEstudios.html"
 
 @api_view(['POST'])
 def crearEstudios(request):
