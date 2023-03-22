@@ -61,7 +61,7 @@ def consultarUno(request):
         busqueda = Empleados.objects.get(numero_documento__contains=documento)
         estudios = Estudios.objects.filter(num_documento=documento)
         experiencia = Experiencia_laboral.objects.filter(n_documento=documento)
-        print(busqueda.nombre)
+        # print(busqueda.nombre)
         #busqueda.foto = settings.MEDIA_ROOT / str(busqueda.foto)
         return render(
             request, 'empleados/verUnEmpleado.html', 
@@ -106,8 +106,8 @@ class EmpleadosView(APIView):
         return Response("Eliminado")
 
     def put(self, request,*args, **kwargs):
-        print(request.data)
-        print(request.data["numero_documento"])
+        # print(request.data)
+        # print(request.data["numero_documento"])
         Empleados.objects.filter(numero_documento=request.data["numero_documento"]).update( nombre=request.data["nombre"], apellido=request.data["apellido"], tipo_documento = request.data["tipo_documento"], correo = request.data["correo"], telefono= request.data["telefono"], tipo_sangre= request.data["tipo_sangre"], foto= request.data['foto'])
 
         return Response("Actualizado")
@@ -120,7 +120,7 @@ class ExperienceView(generic.TemplateView):
 def crearExperiencia(request):
     experiencia_serializer = ExperienciaSerializer(data=request.data)
     if experiencia_serializer.is_valid():
-        print("True")
+        # print("True")
         experiencia = experiencia_serializer.save()
 
     return Response(ExperienciaSerializer(experiencia).data)
@@ -133,10 +133,10 @@ class StudiesView(generic.TemplateView):
 @api_view(['POST'])
 def crearEstudios(request):
     estudios_serializer = EstudiosSerializer(data=request.data)
-    print(request.data)
-    print(request.data['num_documento'])
+    # print(request.data)
+    # print(request.data['num_documento'])
     if estudios_serializer.is_valid():
-        print("True")
+        # print("True")
         #q= Estudios.objects
         #q.create(num_documento=Empleados.objects.get(numero_documento=), anio=2015, mes=10, estudio="Gramatica",institucion="USC",titulo_obtenido="master en gramatica")
         estudios= estudios_serializer.save()

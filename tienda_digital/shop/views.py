@@ -67,13 +67,13 @@ class ShopView(APIView):
         return Response(serializer.data)
 
     def post(self, request,*args, **kwargs):
-        print(request.data)
-        print(request)
+        # print(request.data)
+        # print(request)
         shop_serializer = ShopSerializer(data=request.data)
         if shop_serializer.is_valid():
             shop_serializer.save()
             #print(shop_serializer.data)
-            print("Insercion lograda")
+            # print("Insercion lograda")
             #print("we did it")
             
 
