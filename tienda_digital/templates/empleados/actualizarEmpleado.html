@@ -1,4 +1,6 @@
 {% extends 'index.html' %}
+{% load static %}
+
 {% block container %}
 
 <div class="container contenedor">
@@ -121,80 +123,8 @@
 </div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-  function crearEmpleado() {
-    const url = "/creacion/";
-    let data = {
-      numero_documento: 0,
-      nombre: "",
-      apellido: "",
-      tipo_documento: "",
-      correo: "",
-      telefono: 0,
-      tipo_sangre: "",
-      foto:"",
-    };
+<script src="{% static 'js/employees/update-employee.js' %}"></script>
 
-    data.numero_documento =  document.getElementById("numero_documento").valueAsNumber;
-    data.nombre = document.getElementById("nombre").value;
-    data.apellido = document.getElementById("apellido").value;
-    data.tipo_documento = document.getElementById("tipo_documento").value;
-    data.correo = document.getElementById("correo").value;
-    data.telefono = document.getElementById("telefono").valueAsNumber;
-    data.tipo_sangre = document.getElementById("sangre").value;
-    data.foto = document.getElementById("foto");
-    //data.image = document.getElementById("image").value;
-
-
-    console.log(data.nombre);
-    console.log(data.apellido);
-    console.log(typeof(data.numero_documento));
-    console.log(typeof(data.telefono));
-
-    
-
-    //var myInit = { method: 'GET',
-    //       headers: myHeaders,
-    //       mode: 'cors',
-    //       cache: 'default' };
-
-    const formData = new FormData();
-    //console.log(name);
-    formData.append('numero_documento', data.numero_documento);
-    formData.append('nombre', data.nombre);
-    formData.append('apellido', data.apellido);
-    formData.append('tipo_documento', data.tipo_documento);
-    formData.append('correo', data.correo);
-    formData.append('telefono',data.telefono );
-    formData.append('tipo_sangre', data.tipo_sangre);
-    formData.append('foto', data.foto.files[0]);
-    //formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-    console.log(data);
-
-
-    axios.defaults.headers = {
-      "Content-Type": "application/json",
-      // 'X-CSRFToken': 'csrftoken',
-      'content-type': 'multipart/form-data',
-    }
-    axios.defaults.xsrfCookieName = 'csrftoken'
-    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-
-    axios({
-        method: 'put',
-        url: url,
-        data: formData,
-        // {
-        //   name:data.name,
-        //   sku:data.sku,
-        //   }
-      })
-      .then(res => {
-        console.log(res.data);
-      })
-  }
-
-</script>
 
 {% endblock container %}
     

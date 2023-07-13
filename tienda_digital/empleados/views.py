@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
+from django.db.models import Q
+
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.parsers import MultiPartParser,FormParser
@@ -82,10 +84,26 @@ class EmpleadosView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request, *args, **kwargs):
+        ccId = request.GET.get('numero_documento')
+        print(ccId)
 
-        personal = Empleados.objects.all()
-        serializer = EmpleadosSerializer(personal, many =True)
-        return Response(serializer.data)
+        if ccId :
+            try:
+                personal = Empleados.objects.filter(Q(numero_documento=str(ccId)))#.order_by('-id')[:limit]
+                serializer = EmpleadosSerializer(personal, many =True)
+
+                return Response(serializer.data[0], status=status.HTTP_200_OK)
+            except: 
+                
+                return Response({"error": "Not Found!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+        else:
+            personal = Empleados.objects.all()
+            serializer = EmpleadosSerializer(personal, many =True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request,*args, **kwargs):
         #print(request.data)

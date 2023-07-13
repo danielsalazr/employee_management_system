@@ -16,6 +16,8 @@ class Empleados (models.Model):
 class Estudios(models.Model):
     num_documento = models.ForeignKey(Empleados, on_delete=models.CASCADE)
     anio = models.IntegerField(default=2000)
+    # anioInicio = models.IntegerField(default=0)
+    # anioIFinal = models.IntegerField(default=0)
     mes = models.IntegerField(default=1)
     estudio =models.CharField(max_length=70)
     institucion = models.CharField(max_length=50)
