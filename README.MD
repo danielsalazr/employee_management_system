@@ -53,21 +53,13 @@ To get a local copy up and running follow these steps.
    ```
    python3 manage.py runserver
    ```
-<!-- USAGE -->
-## Usage
 
+## Usage
 1. Open [http://localhost:8000/](http://localhost:8000/) in your web browser.
 2. Interact with crud.
-<!-- 4. execute the endpoint "dish-rest-controller"/POST/dish/ to create a dish", the restaurant could exist to create dish
-1. execute the endpoint "dish-rest-controller"/PATCH/dish/{id}/ to change price and description to existing dish -->
-<!-- ROADMAP -->
-<!-- ## Tests
 
-
-- Right-click the test folder and choose Run tests with coverage --> 
 
 ## Web project
-
 * Project link: [http://sicla.lat:8002/](http://sicla.lat:8002/)
 
 ## Author
