@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 from django.views import generic
@@ -130,11 +131,27 @@ class EmpleadosView(APIView):
     
 
     # @swagger_auto_schema(operation_description="description")
-    @swagger_auto_schema(responses=
+    @swagger_auto_schema(
+        # request_body=openapi.Schema(
+        # type=openapi.TYPE_OBJECT,
+        # properties={
+        #     'phone': openapi.Schema(type=openapi.TYPE_STRING, description='The desc'),
+        #     'body': openapi.Schema(type=openapi.TYPE_STRING, description='The desc'),
+        # }),
+        # method=['post'],
+        request_body=EmpleadosSerializer(many=True),
+        
+        responses=
         {
             200: EmpleadosSerializer(many=True),
             400: 'There\'s no selection',
-        }
+        },
+        # manual_parameters=[
+        #     openapi.Parameter('file', openapi.IN_FORM, type=openapi.TYPE_FILE, description='Document to be uploaded'),
+        #     openapi.Parameter('s3_key', openapi.IN_FORM, type=openapi.TYPE_STRING, description='S3 Key of the Document '
+        #                                                                                        '(folders along with name)')
+        # ],
+        
     )
     def post(self, request,*args, **kwargs):
         #print(request.data)
@@ -167,8 +184,67 @@ class EmpleadosView(APIView):
         return Response("Actualizado")
 
 
-@api_view(['GET'])
+# @swagger_auto_schema(
+#         # methods=['post'],
+#         # request_body=openapi.Schema(
+#         # type=openapi.TYPE_OBJECT,
+#         # properties={
+#         #     'phone': openapi.Schema(type=openapi.TYPE_STRING, description='lol'),
+#         #     'body': openapi.Schema(type=openapi.TYPE_STRING, description='The desc'),
+#         # },
+#         # schema=EmpleadosSerializer(many=True),
+        
+#         # override = {
+#         #     200: 'res',
+#         # }
+        
+#         # ),
+
+        
+
+        
+#         # request_body=EmpleadosSerializer,
+        
+#         # responses=
+#         # {
+#         #     200: EmpleadosSerializer(many=True),
+#         #     400: 'There\'s no selection',
+#         # },
+#         manual_parameters=[
+#             openapi.Parameter('file', openapi.IN_FORM, type=openapi.TYPE_FILE, description='Document to be uploaded'),
+#             openapi.Parameter('s3_key', openapi.IN_FORM, type=openapi.TYPE_STRING, description='S3 Key of the Document '
+#                                                                                                '(folders along with name)')
+#         ],
+        
+#     )
+
+@swagger_auto_schema(
+    methods=['POST'],
+    # operation_summary="Sum of Two numbers",
+    request_body = EmpleadosSerializer,
+    responses={
+        200: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            title="susue",
+            description ='bacas bacas',
+            properties={
+              'phone': openapi.Schema(type=openapi.TYPE_STRING, description='lol'),
+              'body': openapi.Schema(type=openapi.TYPE_STRING, description='The desc'),
+            }
+        ),
+
+        '500': 'Error',
+
+    }
+)
+@api_view(['POST'])
 def getEmpleado(request):
+    """
+    post de post
+
+    se hace el post
+
+    """
     experiencia_serializer = ExperienciaSerializer(data=request.data)
     if experiencia_serializer.is_valid():
         # print("True")

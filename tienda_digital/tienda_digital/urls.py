@@ -30,7 +30,7 @@ schema_view = get_schema_view(
    openapi.Info(
       title="Sistema de empleados API",
       default_version='v0.1',
-      description="Test description",
+      description="Ptoyecto para gestionar empleados",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="danielsalazr@hotmail.com"),
       license=openapi.License(name="BSD License"),
