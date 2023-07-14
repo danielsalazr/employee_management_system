@@ -1,0 +1,8 @@
+drf-yasg
+Django
+django-extensions
+django-webpack-loader
+djangorestframework
+drf-spectacular
+Pillow
+rich

@@ -31,7 +31,7 @@ numero_documento.addEventListener('blur', async () => {
         return
     }
     
-    const url = `creacion/?numero_documento=${numero_documento.value}`;
+    const url = `empleados/?numero_documento=${numero_documento.value}`;
     const req = await callApi(url);
 
     if (req.res.status !== 200){

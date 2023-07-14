@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -163,3 +164,18 @@ REST_FRAMEWORK ={
 
     )
 }
+
+
+SWAGGER_SETTINGS = {
+    # 'SECURITY_DEFINITIONS': {
+    #     'basic': {
+    #         'type': 'basic'
+    #     }
+    # },
+    'DEFAULT_MODEL_RENDERING': 'example',
+}
+
+# REDOC_SETTINGS = {
+#    'LAZY_RENDERING': False,
+#    ...
+# }

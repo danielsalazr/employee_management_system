@@ -4,7 +4,6 @@ from .models import Empleados, Estudios, Experiencia_laboral
 class EmpleadosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empleados
-        #fields = '__all__'
         fields = [
             'numero_documento',
             'nombre',

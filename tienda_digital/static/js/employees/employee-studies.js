@@ -6,7 +6,7 @@ num_documento.focus()
 
 num_documento.addEventListener('blur', async () => {
     
-    const url = `creacion/?id=${num_documento.value}`;
+    const url = `empleados/?id=${num_documento.value}`;
     const req = await callApi(url);
 
     console.log(req.res)

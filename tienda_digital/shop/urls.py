@@ -9,5 +9,5 @@ urlpatterns = [
     path("lista", views.listado, name="lista"),
     path('listado', views.listTemplate,name='listado'),
     path('crearproducto', views.crearProducto ,name='crearproducto'),
-    path('creacion/', views.ShopView.as_view() ,name='creacion'),
+    path('empleados/', views.ShopView.as_view() ,name='empleados'),
 ] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -9,7 +9,11 @@ urlpatterns = [
     path("listaempleado/", views.ListV.as_view(), name="listaempleado"),
 
     path("crearempleado/", views.crearEmpleado, name="crearempleado"),
-    path('creacion/', views.EmpleadosView.as_view() ,name='creacion'),
+
+    path('empleados/', views.EmpleadosView.as_view() ,name='creacion'),
+    # path('empleados/<int:id>/', views.EmpleadosView.as_view() ,name='empleadoById'),
+    path('empleados/<int:id>/', views.getEmpleado ,name='empleadoById'),
+    
 
     path('eliminarempleado/', views.eliminarEmpleado ,name='eliminacion'),
     path('actualizarempleado/', views.actualizarEmpleado,name='actualizacion'),

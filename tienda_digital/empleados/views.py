@@ -15,6 +15,10 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import MultiPartParser,FormParser
 from rest_framework.response import Response
 from rest_framework import status
+
+from drf_yasg.utils import swagger_auto_schema
+
+
 from django.views import generic
 
 from django.conf import settings
@@ -83,7 +87,25 @@ class EmpleadosView(APIView):
 
     parser_classes = (MultiPartParser, FormParser)
 
-    def get(self, request, *args, **kwargs):
+    # swagger_schema = None
+    
+
+    # @swagger_auto_schema(methods=['put', 'post'], request_body=EmpleadosSerializer)
+    @swagger_auto_schema(responses=
+        {
+            200: EmpleadosSerializer(many=True),
+            400: 'There\'s no selection',
+        }
+    )
+    def get(self, request, id=0):# *args, **kwargs):
+        """
+        Obtener informacionde  empleados
+
+        Retorna los datos de todos los empleados de la plataforma
+        """
+        print(id)
+        print(args)
+        print(id)
         ccId = request.GET.get('numero_documento')
         print(ccId)
 
@@ -105,8 +127,22 @@ class EmpleadosView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
+    
+
+    # @swagger_auto_schema(operation_description="description")
+    @swagger_auto_schema(responses=
+        {
+            200: EmpleadosSerializer(many=True),
+            400: 'There\'s no selection',
+        }
+    )
     def post(self, request,*args, **kwargs):
         #print(request.data)
+        """
+        Crear un empleado
+
+        Si la consulta se realiza con exito se crea un empleado
+        """
         empleados_serializer = EmpleadosSerializer(data=request.data)
         if empleados_serializer.is_valid():
             empleado = empleados_serializer.save()
@@ -130,6 +166,15 @@ class EmpleadosView(APIView):
 
         return Response("Actualizado")
 
+
+@api_view(['GET'])
+def getEmpleado(request):
+    experiencia_serializer = ExperienciaSerializer(data=request.data)
+    if experiencia_serializer.is_valid():
+        # print("True")
+        experiencia = experiencia_serializer.save()
+
+    return Response(ExperienciaSerializer(experiencia).data)
 
 class ExperienceView(generic.TemplateView):
     template_name = "empleados/ingresarExperiencia.html"
