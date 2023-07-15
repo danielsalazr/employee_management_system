@@ -35,8 +35,8 @@ To get a local copy up and running follow these steps.
    ```sh
    https://github.com/danielsalazr/Sistema_de_empleados.git
    ```
-2. Create a new database in MySQL running this script
-   ```
+1. Create a new database in MySQL and running migration scripts:
+   ```python
    python3 manage.py makemigrations
    python3 manage.py migrate
    ```
@@ -50,7 +50,7 @@ To get a local copy up and running follow these steps.
    PORT=3306
    ```
 4. Run proyect
-   ```
+   ```python
    python3 manage.py runserver
    ```
 
@@ -64,3 +64,5 @@ To get a local copy up and running follow these steps.
 
 ## Author
 Made by Daniel Salazar
+
+<br/>
