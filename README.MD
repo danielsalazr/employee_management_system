@@ -1,9 +1,7 @@
 <p align="center" >
-<img src="https://nextsoftware.io/files/images/logos/main/django-logo.png" width="90%" align="center">
+<img src="https://nextsoftware.io/files/images/logos/main/django-logo.png" width="60%" align="center">
 </p>
 
-https://nextsoftware.io/files/images/logos/main/django-logo.png
-<br />
 
 <div align="center">
 <h3 align="center">Employee Management</h3>
