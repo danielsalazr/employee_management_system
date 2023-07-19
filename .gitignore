@@ -167,7 +167,7 @@ dmypy.json
 .pytype/
 
 #Exception
-!api.PNG
+!api.png
 
 # Cython debug symbols
 cython_debug/
