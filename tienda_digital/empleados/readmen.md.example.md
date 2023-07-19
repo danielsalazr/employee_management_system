@@ -2,6 +2,15 @@
 
 #Description : (1-2 liner description of the project)
 
+<h2>🧐 Features</h2>
+
+Here're some of the project's best features:
+
+*   Stream Videos
+*   Search any channel
+*   500 API fetch per day
+*   20 videos per search
+
 ## Getting Started Guide :
    - Any info that is absolutely necessary for your project and that you will need to get up and running e.g
    - Installation notes for any dependent libraries
@@ -52,6 +61,7 @@ foobar.singularize('phenomena')
 ```
 
 ~~The world is flat.~~
+
 
 
 

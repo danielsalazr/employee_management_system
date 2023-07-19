@@ -15,6 +15,13 @@ class EmpleadosSerializer(serializers.ModelSerializer):
             'foto',
         ]
 
+class DeleteEmpleadosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Empleados
+        fields = [
+            'numero_documento',
+            'nombre',
+        ]
 
 class EstudiosSerializer(serializers.ModelSerializer):
     class Meta:

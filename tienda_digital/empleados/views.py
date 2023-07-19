@@ -18,7 +18,7 @@ from rest_framework import status
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-
+from .swaggerDocs import *
 
 from django.views import generic
 
@@ -100,9 +100,9 @@ class EmpleadosView(APIView):
     )
     def get(self, request, id=0):# *args, **kwargs):
         """
-        Obtener informacionde  empleados
+        Oget employees information
 
-        Retorna los datos de todos los empleados de la plataforma
+        return employeers data
         """
         print(id)
         print(args)
@@ -132,33 +132,19 @@ class EmpleadosView(APIView):
 
     # @swagger_auto_schema(operation_description="description")
     @swagger_auto_schema(
-        # request_body=openapi.Schema(
-        # type=openapi.TYPE_OBJECT,
-        # properties={
-        #     'phone': openapi.Schema(type=openapi.TYPE_STRING, description='The desc'),
-        #     'body': openapi.Schema(type=openapi.TYPE_STRING, description='The desc'),
-        # }),
-        # method=['post'],
         request_body=EmpleadosSerializer(many=True),
-        
         responses=
         {
             200: EmpleadosSerializer(many=True),
             400: 'There\'s no selection',
         },
-        # manual_parameters=[
-        #     openapi.Parameter('file', openapi.IN_FORM, type=openapi.TYPE_FILE, description='Document to be uploaded'),
-        #     openapi.Parameter('s3_key', openapi.IN_FORM, type=openapi.TYPE_STRING, description='S3 Key of the Document '
-        #                                                                                        '(folders along with name)')
-        # ],
-        
     )
     def post(self, request,*args, **kwargs):
         #print(request.data)
         """
-        Crear un empleado
+        Employee creation
 
-        Si la consulta se realiza con exito se crea un empleado
+        creates an employee in database
         """
         empleados_serializer = EmpleadosSerializer(data=request.data)
         if empleados_serializer.is_valid():
@@ -167,15 +153,38 @@ class EmpleadosView(APIView):
         return Response(EmpleadosSerializer(empleado).data)
 
 
-    #por cuestiones de tiempo la actualizacion y elminacion formulario lo realizo sin verificacion
+    #por cuestiones de tiempo la actualizacion y elminacion formulario lo realizo sin verificacion de serializadores
+
+    @swagger_auto_schema(
+        request_body= DeleteEmpleadosSerializer,
+        responses=
+        {
+            200: 'Employee deleted',
+            400: 'Not Found',
+        },
+    )
     def delete(self, request,*args, **kwargs):
-        #print(request.data["nombre"])
+        """
+        Delete employee
+
+        Deletes an employee 
+        """
         empleado = Empleados.objects.get(nombre=request.data["nombre"], numero_documento=request.data["numero_documento"])
         if empleado:
             empleado.delete()
 
-        return Response("Eliminado")
+        return Response("Employee deleted")
 
+
+    @swagger_auto_schema(
+        # request_body= request_bodyCrearExperiencia,
+        manual_parameters=
+        responses=
+        {
+            200: 'Employee deleted',
+            400: 'Not Found',
+        },
+    )
     def put(self, request,*args, **kwargs):
         # print(request.data)
         # print(request.data["numero_documento"])
@@ -183,59 +192,10 @@ class EmpleadosView(APIView):
 
         return Response("Actualizado")
 
-
-# @swagger_auto_schema(
-#         # methods=['post'],
-#         # request_body=openapi.Schema(
-#         # type=openapi.TYPE_OBJECT,
-#         # properties={
-#         #     'phone': openapi.Schema(type=openapi.TYPE_STRING, description='lol'),
-#         #     'body': openapi.Schema(type=openapi.TYPE_STRING, description='The desc'),
-#         # },
-#         # schema=EmpleadosSerializer(many=True),
-        
-#         # override = {
-#         #     200: 'res',
-#         # }
-        
-#         # ),
-
-        
-
-        
-#         # request_body=EmpleadosSerializer,
-        
-#         # responses=
-#         # {
-#         #     200: EmpleadosSerializer(many=True),
-#         #     400: 'There\'s no selection',
-#         # },
-#         manual_parameters=[
-#             openapi.Parameter('file', openapi.IN_FORM, type=openapi.TYPE_FILE, description='Document to be uploaded'),
-#             openapi.Parameter('s3_key', openapi.IN_FORM, type=openapi.TYPE_STRING, description='S3 Key of the Document '
-#                                                                                                '(folders along with name)')
-#         ],
-        
-#     )
-
 @swagger_auto_schema(
     methods=['POST'],
-    # operation_summary="Sum of Two numbers",
     request_body = EmpleadosSerializer,
-    responses={
-        200: openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            title="susue",
-            description ='bacas bacas',
-            properties={
-              'phone': openapi.Schema(type=openapi.TYPE_STRING, description='lol'),
-              'body': openapi.Schema(type=openapi.TYPE_STRING, description='The desc'),
-            }
-        ),
-
-        '500': 'Error',
-
-    }
+    responses = empleadoResponses
 )
 @api_view(['POST'])
 def getEmpleado(request):
@@ -255,8 +215,19 @@ def getEmpleado(request):
 class ExperienceView(generic.TemplateView):
     template_name = "empleados/ingresarExperiencia.html"
 
+@swagger_auto_schema(
+    methods=['POST'],
+    request_body= request_bodyCrearExperiencia,
+    responses = responsesCrearExperiencia,
+)
 @api_view(['POST'])
 def crearExperiencia(request):
+    """
+    Create employee job experience
+
+    Creates Job experience in relation to an employee
+
+    """
     experiencia_serializer = ExperienciaSerializer(data=request.data)
     if experiencia_serializer.is_valid():
         # print("True")
@@ -269,8 +240,35 @@ def crearExperiencia(request):
 class StudiesView(generic.TemplateView):
     template_name = "empleados/ingresarEstudios.html"
 
+
+@swagger_auto_schema(
+    methods=['POST'],
+    request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT, 
+    title = 'Body',
+    properties={
+        
+        'num_documento': openapi.Schema(type=openapi.TYPE_STRING, description='string', default='11111111'),
+        'anio': openapi.Schema(type=openapi.TYPE_INTEGER, description='integer', default=2023),
+        'mes': openapi.Schema(type=openapi.TYPE_INTEGER, description='string', default='12'),
+        'estudio': openapi.Schema(type=openapi.TYPE_STRING, description='string', default='Electronics Engineering'),
+        'institucion': openapi.Schema(type=openapi.TYPE_STRING, description='string', default='Hardvard university'),
+        'titulo_obtenido': openapi.Schema(type=openapi.TYPE_STRING, description='string', default="Electronics Engineer"), 
+    }),
+
+    responses={
+        # 200: {"success":'OK'},
+        200 : EstudiosSerializer,
+        500: 'Error',
+    },
+)
 @api_view(['POST'])
 def crearEstudios(request):
+    """
+    Create studies mades by the employee
+
+    Create employee studies in database
+    """
     estudios_serializer = EstudiosSerializer(data=request.data)
     # print(request.data)
     # print(request.data['num_documento'])
