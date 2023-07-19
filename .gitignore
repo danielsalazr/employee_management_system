@@ -166,6 +166,9 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
+#Exception
+!api.PNG
+
 # Cython debug symbols
 cython_debug/
 

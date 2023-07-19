@@ -76,7 +76,7 @@ http://127.0.0.1:8000/swagger/
 ```
 
 <p align="center" >
-<img src="./api.PNG" width="90%" align="center">
+<img src="./api.png" width="90%" align="center">
 </p>
 
 ## Author
