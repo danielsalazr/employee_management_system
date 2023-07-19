@@ -1,10 +1,17 @@
+<p align="center" >
+<img src="https://nextsoftware.io/files/images/logos/main/django-logo.png" width="90%" align="center">
+</p>
+
+https://nextsoftware.io/files/images/logos/main/django-logo.png
 <br />
+
 <div align="center">
 <h3 align="center">Employee Management</h3>
   <p align="center">
     This is a project to manage employee information to your company. 
   </p>
 </div>
+
 
 ### Built With
 
@@ -61,6 +68,18 @@ To get a local copy up and running follow these steps.
 
 ## Web project
 * Project link: [http://sicla.lat:8002/](http://sicla.lat:8002/)
+
+
+## Documentation 
+You can see API documentation through the following link:
+
+```
+http://127.0.0.1:8000/swagger/
+```
+
+<p align="center" >
+<img src="./api.PNG" width="90%" align="center">
+</p>
 
 ## Author
 Made by Daniel Salazar

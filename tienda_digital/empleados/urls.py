@@ -23,6 +23,9 @@ urlpatterns = [
     path('consultar/', views.devolverConsulta ,name='retornoconsulta'),
 
     path('experiencia/', views.ExperienceView.as_view() ,name='experiencia'),
+
+    # path('lulito/', views.Lulito.as_view() ,name='experiencia'),
+
     path('crearexperiencia/', views.crearExperiencia ,name='crearexperiencia'),
 
     path('estudios/', views.StudiesView.as_view() ,name='estudios'),

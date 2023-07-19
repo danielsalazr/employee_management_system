@@ -5,7 +5,7 @@ from django.db import models
 class Empleados (models.Model):
     numero_documento = models.CharField(primary_key=True, max_length=50)
     nombre = models.CharField(max_length=50)
-    apellido = models.CharField(max_length=50)
+    apellido = models.CharField(max_length=50,)
     tipo_documento = models.CharField(max_length=20)
     correo = models.CharField(max_length=70)
     telefono = models.CharField(max_length=50)
@@ -32,4 +32,4 @@ class Experiencia_laboral(models.Model):
     jefe_inmediato = models.CharField(max_length=50)
     cargo = models.CharField(max_length=30)
     responsabilidades = models.TextField((""))
-    logros= models.TextField((""))
+    logros = models.TextField((""))

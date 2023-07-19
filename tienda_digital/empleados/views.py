@@ -11,8 +11,9 @@ from django.contrib import messages
 from django.db.models import Q
 
 from rest_framework.views import APIView
+from rest_framework import generics,status
 from rest_framework.decorators import api_view
-from rest_framework.parsers import MultiPartParser,FormParser
+from rest_framework.parsers import MultiPartParser,FormParser, JSONParser
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -83,30 +84,61 @@ def consultarUno(request):
     #print(busqueda)
     return render(request, 'empleados/verUnEmpleado.html', {'empleados': busqueda})
 
+class Lulito(generics.GenericAPIView):
+    serializer_class = EmpleadosSerializer
+    # @swagger_auto_schema(
+    #     operation_summary="Create a user account by signing Up"
+    # )
+    def post(self, request):
+        #print(request.data)
+        """
+        Employee creation
+
+        creates an employee in database
+        """
+        serializer = EmpleadosSerializer(data=request.data, many=True)
+        if empleados_serializer.is_valid():
+            empleado = empleados_serializer.save()
+
+        return Response(EmpleadosSerializer(empleado).data)
 
 class EmpleadosView(APIView):
 
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
 
     # swagger_schema = None
     
 
     # @swagger_auto_schema(methods=['put', 'post'], request_body=EmpleadosSerializer)
-    @swagger_auto_schema(responses=
+    @swagger_auto_schema(
+        request_body=None,
+        responses=
         {
-            200: EmpleadosSerializer(many=True),
-            400: 'There\'s no selection',
-        }
+            200: openapi.Response('response described', EmpleadosSerializer),
+            # 400: 'There\'s no selection',
+            400: openapi.Response('response described',openapi.Schema(
+                type=openapi.TYPE_OBJECT, 
+                title = 'Body',
+                properties={
+                    
+                    'status': openapi.Schema(type=openapi.TYPE_STRING, description='string', default='Not Found'),
+
+            })),
+            500: openapi.Response('Forbidden'),
+        },
+        manual_parameters=[
+            openapi.Parameter('page', openapi.IN_QUERY, description="test manual param", type=openapi.TYPE_STRING, default='1', required=False),
+        ],
     )
     def get(self, request, id=0):# *args, **kwargs):
         """
-        Oget employees information
+        Get employees information
 
         return employeers data
         """
-        print(id)
-        print(args)
-        print(id)
+        # print(id)
+        # print(args)
+        # print(id)
         ccId = request.GET.get('numero_documento')
         print(ccId)
 
@@ -132,12 +164,15 @@ class EmpleadosView(APIView):
 
     # @swagger_auto_schema(operation_description="description")
     @swagger_auto_schema(
-        request_body=EmpleadosSerializer(many=True),
+        request_body=EmpleadosSerializer,
         responses=
         {
             200: EmpleadosSerializer(many=True),
             400: 'There\'s no selection',
         },
+        manual_parameters=[
+            # openapi.Parameter('page', openapi.IN_FORM, description="test manual param", type=openapi.TYPE_STRING, default='1', required=False),
+        ],
     )
     def post(self, request,*args, **kwargs):
         #print(request.data)
@@ -159,15 +194,15 @@ class EmpleadosView(APIView):
         request_body= DeleteEmpleadosSerializer,
         responses=
         {
-            200: 'Employee deleted',
+            200: "Employee deleted",
             400: 'Not Found',
         },
     )
     def delete(self, request,*args, **kwargs):
         """
         Delete employee
-
-        Deletes an employee 
+        
+        Delete a employee throught his document_number or name
         """
         empleado = Empleados.objects.get(nombre=request.data["nombre"], numero_documento=request.data["numero_documento"])
         if empleado:
@@ -175,27 +210,21 @@ class EmpleadosView(APIView):
 
         return Response("Employee deleted")
 
-
-    @swagger_auto_schema(
-        # request_body= request_bodyCrearExperiencia,
-        manual_parameters=
-        responses=
-        {
-            200: 'Employee deleted',
-            400: 'Not Found',
-        },
-    )
     def put(self, request,*args, **kwargs):
-        # print(request.data)
-        # print(request.data["numero_documento"])
+        """
+        Update employee data
+
+        Updates employee data which have been defined by the user
+        """
         Empleados.objects.filter(numero_documento=request.data["numero_documento"]).update( nombre=request.data["nombre"], apellido=request.data["apellido"], tipo_documento = request.data["tipo_documento"], correo = request.data["correo"], telefono= request.data["telefono"], tipo_sangre= request.data["tipo_sangre"], foto= request.data['foto'])
+
 
         return Response("Actualizado")
 
 @swagger_auto_schema(
     methods=['POST'],
     request_body = EmpleadosSerializer,
-    responses = empleadoResponses
+    # responses = empleadoResponses
 )
 @api_view(['POST'])
 def getEmpleado(request):
