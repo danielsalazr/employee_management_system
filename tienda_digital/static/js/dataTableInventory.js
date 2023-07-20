@@ -14,7 +14,7 @@ window.addEventListener('load', async function() {
 
 
 async function getDataTableInfo() {
-    const url = 'creacion/'    
+    const url = 'empleados/'    
     const req = await callApi(url); // Consumo de Api 
 
     // validar si la respuesta es ok

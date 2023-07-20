@@ -1,7 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+
+
+from rest_framework import routers
+
+# router = routers.DefaultRouter()
+# router.register(r'employeexperience', views.EmployeeExperience)
+
 
 app_name = "empleados"
 urlpatterns = [
@@ -12,7 +19,8 @@ urlpatterns = [
 
     path('empleados/', views.EmpleadosView.as_view() ,name='creacion'),
     # path('empleados/<int:id>/', views.EmpleadosView.as_view() ,name='empleadoById'),
-    path('empleados/<int:id>/', views.getEmpleado ,name='empleadoById'),
+    path('empleados/<int:id_number>/', views.getEmpleado ,name='empleadoById'),
+
     
 
     path('eliminarempleado/', views.eliminarEmpleado ,name='eliminacion'),
@@ -23,10 +31,11 @@ urlpatterns = [
     path('consultar/', views.devolverConsulta ,name='retornoconsulta'),
 
     path('experiencia/', views.ExperienceView.as_view() ,name='experiencia'),
+    path('empleados/experience/<int:id_number>', views.EmployeeExperience.as_view() ,name='employee_experience'),
 
     # path('lulito/', views.Lulito.as_view() ,name='experiencia'),
 
-    path('crearexperiencia/', views.crearExperiencia ,name='crearexperiencia'),
+    # path('', include(router.urls)),
 
     path('estudios/', views.StudiesView.as_view() ,name='estudios'),
     path('crearestudios/', views.crearEstudios ,name='crearestudios'),

@@ -13,6 +13,7 @@ from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework import generics,status
 from rest_framework.decorators import api_view
+from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.parsers import MultiPartParser,FormParser, JSONParser
 from rest_framework.response import Response
 from rest_framework import status
@@ -26,6 +27,8 @@ from django.views import generic
 from django.conf import settings
     
     
+from rich.console import Console
+console = Console()
 # Create your views here.
 
 class IndexView(generic.TemplateView):
@@ -140,7 +143,7 @@ class EmpleadosView(APIView):
         # print(args)
         # print(id)
         ccId = request.GET.get('numero_documento')
-        print(ccId)
+        # print(ccId)
 
         if ccId :
             try:
@@ -167,14 +170,14 @@ class EmpleadosView(APIView):
         request_body=EmpleadosSerializer,
         responses=
         {
-            200: EmpleadosSerializer(many=True),
+            200: openapi.Response('OK',EmpleadosSerializer(many=True)),
             400: 'There\'s no selection',
         },
         manual_parameters=[
             # openapi.Parameter('page', openapi.IN_FORM, description="test manual param", type=openapi.TYPE_STRING, default='1', required=False),
         ],
     )
-    def post(self, request,*args, **kwargs):
+    def post(self, request, *args, **kwargs):
         #print(request.data)
         """
         Employee creation
@@ -217,52 +220,107 @@ class EmpleadosView(APIView):
         Updates employee data which have been defined by the user
         """
         Empleados.objects.filter(numero_documento=request.data["numero_documento"]).update( nombre=request.data["nombre"], apellido=request.data["apellido"], tipo_documento = request.data["tipo_documento"], correo = request.data["correo"], telefono= request.data["telefono"], tipo_sangre= request.data["tipo_sangre"], foto= request.data['foto'])
-
-
         return Response("Actualizado")
 
+
 @swagger_auto_schema(
-    methods=['POST'],
-    request_body = EmpleadosSerializer,
-    # responses = empleadoResponses
+    methods=['GET',],
+    # request_body = EmpleadosSerializer,
+    responses=
+        {
+            200: openapi.Response('OK',EmpleadosSerializer),
+            404: 'Not Found',
+        },
 )
-@api_view(['POST'])
-def getEmpleado(request):
+@api_view(['GET'])
+def getEmpleado(request, id_number=0):
     """
-    post de post
+    Search single employee by id
 
-    se hace el post
+    return one employee information
 
     """
-    experiencia_serializer = ExperienciaSerializer(data=request.data)
-    if experiencia_serializer.is_valid():
-        # print("True")
-        experiencia = experiencia_serializer.save()
+    data = Empleados.objects.filter(Q(numero_documento=str(id_number)))
+    
+    if data.exists():
+        return Response(data.values(), status=status.HTTP_200_OK)
 
-    return Response(ExperienciaSerializer(experiencia).data)
+    return Response('Not found', status=status.HTTP_404_NOT_FOUND)
+
 
 class ExperienceView(generic.TemplateView):
     template_name = "empleados/ingresarExperiencia.html"
 
-@swagger_auto_schema(
-    methods=['POST'],
-    request_body= request_bodyCrearExperiencia,
-    responses = responsesCrearExperiencia,
-)
-@api_view(['POST'])
-def crearExperiencia(request):
-    """
-    Create employee job experience
 
-    Creates Job experience in relation to an employee
+class EmployeeExperience(APIView):
 
-    """
-    experiencia_serializer = ExperienciaSerializer(data=request.data)
-    if experiencia_serializer.is_valid():
-        # print("True")
-        experiencia = experiencia_serializer.save()
+    parser_classes = (JSONParser, MultiPartParser, FormParser)
+    serializer_class = ExperienciaSerializer
 
-    return Response(ExperienciaSerializer(experiencia).data)
+    # swagger_schema = None
+    
+
+    @swagger_auto_schema(
+        responses={
+            200: openapi.Response('response described', EmpleadosSerializer),
+            400: "Not Found",
+            500: openapi.Response('Forbidden'),
+        },
+    )
+    def get(self, request, id_number=0):# *args, **kwargs):
+        
+        pass
+
+    def post(self, request, id_number=0):
+        
+
+
+# class EmployeeExperience(ViewSet):
+
+#     queryset = Experiencia_laboral.objects.all()
+
+#     def list(self, request):
+#         pass
+
+#     @swagger_auto_schema(
+#         # methods=['POST'],
+#         request_body= request_bodyCrearExperiencia,
+#         responses = responsesCrearExperiencia,
+#     )
+#     def create(self, request):
+#         """
+#         Create employee job experience
+
+#         Creates Job experience in relation to an employee
+
+#         """
+#         experiencia_serializer = ExperienciaSerializer(data=request.data)
+#         if experiencia_serializer.is_valid():
+#             # print("True")
+#             experiencia = experiencia_serializer.save()
+
+#         return Response(ExperienciaSerializer(experiencia).data)
+
+
+##  @swagger_auto_schema(
+#     methods=['POST'],
+#     request_body= request_bodyCrearExperiencia,
+#     responses = responsesCrearExperiencia,
+# )
+# @api_view(['POST'])
+# def crearExperiencia(request):
+#     """
+#     Create employee job experience
+
+#     Creates Job experience in relation to an employee
+
+#     """
+#     experiencia_serializer = ExperienciaSerializer(data=request.data)
+#     if experiencia_serializer.is_valid():
+#         # print("True")
+#         experiencia = experiencia_serializer.save()
+
+#     return Response(ExperienciaSerializer(experiencia).data)
 
 
 
