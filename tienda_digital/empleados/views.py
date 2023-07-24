@@ -263,17 +263,47 @@ class EmployeeExperience(APIView):
     @swagger_auto_schema(
         responses={
             200: openapi.Response('response described', EmpleadosSerializer),
-            400: "Not Found",
+            404: "Not Found",
             500: openapi.Response('Forbidden'),
         },
     )
-    def get(self, request, id_number=0):# *args, **kwargs):
-        
-        pass
+    def get(self, request, id_number=0):
+        """
+        Employee experince info
 
-    def post(self, request, id_number=0):
-        
+        Returns experience info of one employee by their number id
+        """
+        experience = Experiencia_laboral.objects.filter(n_documento=id_number).values()
+        console.log(list(experience))
+        serializer = ExperienciaSerializer(data=list(experience), many=True)
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+
+
+    @swagger_auto_schema(
+        responses={
+            200: openapi.Response('response described', EmpleadosSerializer),
+            404: "Not Found",
+            500: openapi.Response('Forbidden'),
+        },
+    )
+    def post(self, request, id_number=0, *args, **kwargs):
+        """
+        Create employee job experience
+
+        Creates Job experience in relation to an employee
+
+        """
+        console.log(request.data)
+        experiencia_serializer = ExperienciaSerializer(data=request.data)
+        if experiencia_serializer.is_valid():
+            # print("True")
+            experiencia = experiencia_serializer.save()
+
+            return Response(experiencia_serializer.data, status=status.HTTP_200_OK)
+        return Response(experiencia_serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 # class EmployeeExperience(ViewSet):
 

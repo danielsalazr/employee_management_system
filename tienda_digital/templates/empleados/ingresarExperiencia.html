@@ -1,4 +1,6 @@
 {% extends 'index.html' %}
+{% load static %}
+
 
 {% block container %}
 
@@ -16,6 +18,7 @@
                     type="number"
                     class="form-control"
                     id="n_documento"
+                    name="n_documento"
                     placeholder=""
                     required
                   />
@@ -24,10 +27,10 @@
                   <label htmlfor="lastName" class="form-label"> Año: </label>
                   <input
                     onchange=""
-                    type
-                    ="number"
+                    type="number"
                     class="form-control"
                     id="anio"
+                    name="anio"
                     placeholder=""
                     required
                   />
@@ -39,6 +42,7 @@
                     type ="number"
                     class="form-control"
                     id="mes"
+                    name="mes"
                     placeholder=""
                     required
                   />
@@ -50,6 +54,7 @@
                     type ="text"
                     class="form-control"
                     id="empresa"
+                    name="empresa"
                     placeholder=""
                     required
                   />
@@ -62,6 +67,7 @@
                     ="text"
                     class="form-control"
                     id="jefe_inmediato"
+                    name="jefe_inmediato"
                     placeholder=""
                     required
                   />
@@ -73,6 +79,7 @@
                     type="text"
                     class="form-control"
                     id="cargo"
+                    name="cargo"
                     placeholder=""
                     required
                   />
@@ -84,6 +91,7 @@
                     type="text"
                     class="form-control"
                     id="responsabilidades"
+                    name="responsabilidades"
                     placeholder=""
                     required
                   />
@@ -95,6 +103,7 @@
                       type="text"
                       class="form-control"
                       id="logros"
+                      name="logros"
                       placeholder=""
                       required
                     />
@@ -102,13 +111,11 @@
                 </div>
               </div>
               <hr class="my-4" />
-            </form>
-            <button
-              class="w-100 btn btn-primary btn-lg"
-              onclick="crearExperiencia()"
-            >
-              Adjuntar experiencia
-            </button>
+              <button class="w-100 btn btn-primary btn-lg" id="SendExperience" >
+                Adjuntar experiencia
+              </button>
+              </form>
+
             <a class="btn btn-warning btn-lg mt-4 w-100" href="{% url 'empleados:index' %}"> Regresar al menu principal</a>
           {% if success %}
           <p class="alert alert-danger">{{ success }}</p>
@@ -119,62 +126,6 @@
     </div>
     
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script>
-        function crearExperiencia() {
-            const url = "/crearexperiencia/";
-            let data = {
-                n_documento: 0,
-                anio: 0,
-                mes: 0,
-                empresa: "",
-                jefe_inmediato: "",
-                cargo: "",
-                responsabilidades: "",
-                logros: "",
-            };
-    
-            data.n_documento =  document.getElementById("n_documento").valueAsNumber;
-            data.anio = document.getElementById("anio").value;
-            data.mes = document.getElementById("mes").value;
-            data.empresa = document.getElementById("empresa").value;
-            data.jefe_inmediato = document.getElementById("jefe_inmediato").value;
-            data.cargo = document.getElementById("cargo").value;
-            data.responsabilidades = document.getElementById("responsabilidades").value;
-            data.logros = document.getElementById("logros").value;
-    
-    
-            const formData = new FormData();
-            //console.log(name);
-            formData.append('n_documento', data.n_documento);
-            formData.append('anio', data.anio);
-            formData.append('mes', data.mes);
-            formData.append('empresa', data.empresa);
-            formData.append('jefe_inmediato', data.jefe_inmediato);
-            formData.append('cargo',data.cargo );
-            formData.append('responsabilidades', data.responsabilidades);
-            formData.append('logros',data.logros );
-            console.log(data);
-    
-    
-            axios.defaults.headers = {
-              "Content-Type": "application/json",
-              // 'X-CSRFToken': 'csrftoken',
-              'content-type': 'multipart/form-data',
-            }
-            axios.defaults.xsrfCookieName = 'csrftoken'
-            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-    
-            axios({
-                method: 'post',
-                url: url,
-                data: formData,
-              })
-              .then(res => {
-                console.log(res.data);
-                alert("Informacion ingresada con Exito")
-              })
-          }
-        
-    </script>
+    <script src="{% static 'js/employees/createEmployeeExperience.js' %}"></script>
 
 {% endblock container %}

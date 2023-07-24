@@ -32,7 +32,6 @@ async function swalconfirmation(text){
     text,
     'success'
   );
-  setTimeout( () => {document.location.reload(true)}, 1500);
 }
 
 async function swalconfirmationAndReload(text){

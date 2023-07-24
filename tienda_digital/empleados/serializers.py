@@ -32,4 +32,14 @@ class EstudiosSerializer(serializers.ModelSerializer):
 class ExperienciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Experiencia_laboral
-        fields = '__all__'
+        # fields = '__all__'
+        fields = [
+            # 'n_documento',
+            'anio',
+            'mes',
+            'empresa',
+            'jefe_inmediato',
+            'cargo',
+            'responsabilidades',
+            'logros',
+        ]
