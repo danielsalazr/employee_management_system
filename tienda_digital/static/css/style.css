@@ -31,3 +31,12 @@ a::after, a::before, a:hover {
 #home a i {
   font-size: 28px;
 }
+
+.buttonSearchIcon {
+  padding-top: 8px;
+  padding-bottom: 3px;
+}
+
+.searchIcon {
+  font-size: 1.25rem;
+}

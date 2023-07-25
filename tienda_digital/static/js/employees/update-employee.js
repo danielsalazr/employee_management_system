@@ -1,3 +1,4 @@
+const SearchEmployeeToupdate = document.querySelector('#SearchEmployeeToupdate');
 const numero_documento = document.querySelector('#numero_documento');
 const nombre = document.querySelector("#nombre");
 const apellido = document.querySelector("#apellido");
@@ -15,6 +16,14 @@ function setReadonlyInput(condition){
     correo.readOnly = condition
 }
 
+function eraseInputs(){
+  nombre.value = '';
+  apellido.value = '';
+  tipo_documento.value = '';
+  telefono.value = '';
+  sangre.value = '';
+  correo.value = '';
+}
 
 setReadonlyInput(true);
 
@@ -24,7 +33,14 @@ setReadonlyInput(true);
 
 numero_documento.focus()
 
-numero_documento.addEventListener('blur', async () => {
+
+numero_documento.addEventListener('focus',() => {
+  eraseInputs();
+  setReadonlyInput(true);
+})
+
+
+SearchEmployeeToupdate.addEventListener('click', async () => {
 
     if (numero_documento.value == ''){
         swalErr('Debe ingresar un numero de documento para obtener informacion del colaborador')
