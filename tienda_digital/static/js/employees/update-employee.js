@@ -6,6 +6,7 @@ const tipo_documento = document.querySelector("#tipo_documento");
 const telefono = document.querySelector("#telefono");
 const sangre = document.querySelector("#sangre");
 const correo = document.querySelector("#correo");
+const submitEmployeeUpdateInfo = document.querySelector('#submitEmployeeUpdateInfo');
 
 function setReadonlyInput(condition){
     nombre.readOnly = condition
@@ -14,6 +15,7 @@ function setReadonlyInput(condition){
     telefono.readOnly = condition
     sangre.readOnly = condition
     correo.readOnly = condition
+    submitEmployeeUpdateInfo.disabled = condition;
 }
 
 function eraseInputs(){
