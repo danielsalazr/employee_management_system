@@ -32,11 +32,27 @@ a::after, a::before, a:hover {
   font-size: 28px;
 }
 
-.buttonSearchIcon {
+.buttonSearchIcon,
+.buttonRemoveSearch {
   padding-top: 8px;
   padding-bottom: 3px;
+  width: 48px;
+}
+
+.buttonSearchIcon:hover {
+  color: rgb(24, 201, 24);
+  background-color: #EEEEEE;
+}
+
+.buttonRemoveSearch:hover {
+  color: red;
+  background-color: #EEEEEE;
 }
 
 .searchIcon {
   font-size: 1.25rem;
+}
+
+.removeSearch {
+  font-size: 1.6em;
 }

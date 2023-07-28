@@ -1,4 +1,5 @@
 const SearchEmployeeToupdate = document.querySelector('#SearchEmployeeToupdate');
+const removeSearchEmployeeToupdate = document.querySelector('#removeSearchEmployeeToupdate')
 const numero_documento = document.querySelector('#numero_documento');
 const nombre = document.querySelector("#nombre");
 const apellido = document.querySelector("#apellido");
@@ -27,7 +28,59 @@ function eraseInputs(){
   correo.value = '';
 }
 
+const searchEmployee = async () => {
+  
+
+  if (numero_documento.value === ''){
+      await swalErr('Debe ingresar un numero de documento para obtener informacion del colaborador');
+      // await setTimeout(numero_documento.focus(),3000)
+      return  setTimeout(numero_documento.focus(),2000)
+  }
+  
+  const url = `empleados/?numero_documento=${numero_documento.value}`;
+  const req = await callApi(url);
+
+  if (req.res.status !== 200){
+
+      // numero_documento.value = '';
+      nombre.value = '';
+      apellido.value = '';
+      tipo_documento.value = '';
+      telefono.value = '';
+      sangre.value = '';
+      correo.value = '';
+
+      setReadonlyInput(true);
+
+  
+      await swalErr('No se logro obtener un empleado con este dato');
+
+      // setTimeout(numero_documento.focus(),2000)
+      return 
+  }
+
+  
+
+  const data = req.data
+
+  setReadonlyInput(false);
+  numero_documento.readOnly= true;
+
+  numero_documento.value = data.numero_documento;
+  nombre.value = data.nombre;
+  apellido.value = data.apellido;
+  tipo_documento.value = data.tipo_documento;
+  telefono.value = data.telefono;
+  sangre.value = data.tipo_sangre;
+  correo.value = data.correo;
+
+  removeSearchEmployeeToupdate.disabled = false;
+  SearchEmployeeToupdate.disabled = true;
+  
+}
+
 setReadonlyInput(true);
+removeSearchEmployeeToupdate.disabled = true;
 
 
 //This function only receives true or false value, and i use to block default inputs
@@ -36,52 +89,27 @@ setReadonlyInput(true);
 numero_documento.focus()
 
 
-numero_documento.addEventListener('focus',() => {
+// numero_documento.addEventListener('focus',() => {
+removeSearchEmployeeToupdate.addEventListener('click',() => {
+  removeSearchEmployeeToupdate.disabled = true;
+  SearchEmployeeToupdate.disabled = false;
+  numero_documento.readOnly= false;
   eraseInputs();
   setReadonlyInput(true);
 })
 
 
-SearchEmployeeToupdate.addEventListener('click', async () => {
-
-    if (numero_documento.value == ''){
-        swalErr('Debe ingresar un numero de documento para obtener informacion del colaborador')
-        return
+numero_documento.addEventListener("keydown", (event) => {
+    
+    // Comprueba si el código de la tecla es igual a 13 (Enter)
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      
+      return searchEmployee();
     }
-    
-    const url = `empleados/?numero_documento=${numero_documento.value}`;
-    const req = await callApi(url);
-
-    if (req.res.status !== 200){
-
-        numero_documento.value = '';
-        nombre.value = '';
-        apellido.value = '';
-        tipo_documento.value = '';
-        telefono.value = '';
-        sangre.value = '';
-        correo.value = '';
-
-        setReadonlyInput(true);
-
-    
-        await swalErr('No se logro obtener un empleado con este dato');
-        return
-    }
-
-    const data = req.data
-
-    setReadonlyInput(false);
-
-    numero_documento.value = data.numero_documento;
-    nombre.value = data.nombre;
-    apellido.value = data.apellido;
-    tipo_documento.value = data.tipo_documento;
-    telefono.value = data.telefono;
-    sangre.value = data.tipo_sangre;
-    correo.value = data.correo;
-    
+  
 });
+SearchEmployeeToupdate.addEventListener('click',() => searchEmployee());
 
 
 
