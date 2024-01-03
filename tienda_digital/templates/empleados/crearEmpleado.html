@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% load static %}
 
     {% block container %}
     <div class="container contenedor">
@@ -33,14 +34,21 @@
                 </div>
                 <div class="col-sm-6">
                   <label htmlfor="lastName" class="form-label"> tipo de documento </label>
-                  <input
+                  <select name="tipo_documento" id="tipo_documento" class="form-select">
+                    <option value="">- Seleccionar -</option>
+                      {% for tipoDocumento in tiposDocumento %}
+                        <option value="{{tipoDocumento.id}}">{{tipoDocumento.nombre}}</option>
+                      {% endfor %}
+
+                  </select>
+                  {% comment %} <input
                     onchange=""
                     type ="text"
                     class="form-control"
                     id="tipo_documento"
                     placeholder=""
                     required
-                  />
+                  /> {% endcomment %}
                 </div>
                 <div class="col-sm-6">
                   <label htmlfor="lastName" class="form-label"> numero de documento </label>
@@ -78,14 +86,21 @@
                 </div>
                 <div class="col-sm-6">
                   <label htmlfor="lastName" class="form-label"> tipo de sangre </label>
-                  <input
+                  <select name="sangre" id="sangre" class="form-select" >
+                    <option value="">- Seleccionar -</option>
+                      {% for tipoSangre in tiposSangre %}
+                        <option value="{{tipoSangre.id}}">{{tipoSangre.nombre}}</option>
+                      {% endfor %}
+
+                  </select>
+                  {% comment %} <input
                     onchange=""
                     type="text"
                     class="form-control"
                     id="sangre"
                     placeholder=""
                     required
-                  />
+                  /> {% endcomment %}
                 </div>
                 </div>
                 <div class="col-12">
@@ -121,8 +136,9 @@
     </div>
     
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static "js/sweetAlertFunctions.js" %}"></script>
     <script>
-      function crearEmpleado() {
+      async function crearEmpleado() {
         const url = "/empleados/";
         let data = {
           numero_documento: 0,
@@ -167,8 +183,21 @@
         }
         axios.defaults.xsrfCookieName = 'csrftoken'
         axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+        
+        /*
+        const api = axios.create({
+          baseURL: 'http://localhost:8000/',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+          //params: {
+          //  'api_key': API_KEY,
+          //},
+        });
+        */
+        //const { data } = await api.post(url, formData)
 
-        axios({
+         axios({
             method: 'post',
             url: url,
             data: formData,
@@ -178,9 +207,14 @@
             //   }
           })
           .then(res => {
-            console.log(res.data);
-            alert("Usuario Creado con Exito")
+            console.log(res.data); 
+            //alert("Usuario Creado con Exito")
+            
           })
+
+          await swalconfirmation("Usuario Creado con Exito")
+          window.location.replace("/listaempleado/")
+          
       }
     
     </script>

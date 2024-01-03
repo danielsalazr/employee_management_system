@@ -1,6 +1,6 @@
 from ast import Delete
 from django.shortcuts import render
-from  .models import *
+# from  .models import *
 from django.http import HttpResponse, JsonResponse
 from urllib import request, response
 from .serializers import EmpleadosSerializer, EstudiosSerializer, ExperienciaSerializer
@@ -29,6 +29,14 @@ from django.conf import settings
     
 from rich.console import Console
 console = Console()
+
+from .models import (
+    Empleados,
+    Estudios,
+    Experiencia_laboral,
+    TipoDocumento,
+    TipoSangre
+)
 # Create your views here.
 
 class IndexView(generic.TemplateView):
@@ -47,7 +55,16 @@ class ListV(generic.ListView):
 
 
 def crearEmpleado(request):
-    return render(request, 'empleados/crearEmpleado.html')
+
+    tiposSangre = TipoSangre.objects.all()
+    tiposDocumento = TipoDocumento.objects.all()
+
+    context ={
+        "tiposSangre": tiposSangre,
+        "tiposDocumento":tiposDocumento,
+    }
+
+    return render(request, 'empleados/crearEmpleado.html', context)
 
 def actualizarEmpleado(request):
     return render(request, 'empleados/actualizarEmpleado.html')
@@ -184,11 +201,13 @@ class EmpleadosView(APIView):
 
         creates an employee in database
         """
+
+        console.log(request.data)
         empleados_serializer = EmpleadosSerializer(data=request.data)
         if empleados_serializer.is_valid():
             empleado = empleados_serializer.save()
 
-        return Response(EmpleadosSerializer(empleado).data)
+        return Response(empleados_serializer.data)
 
 
     #por cuestiones de tiempo la actualizacion y elminacion formulario lo realizo sin verificacion de serializadores

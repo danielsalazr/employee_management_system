@@ -27,7 +27,7 @@ async function swalQuestion(title, text){
 }
 
 async function swalconfirmation(text){
-  Swal.fire(
+  await Swal.fire(
     'Completado!',
     text,
     'success'

@@ -2,7 +2,13 @@ from django.contrib import admin
 from django.apps import AppConfig
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Empleados, Estudios, Experiencia_laboral
+from .models import (
+    Empleados,
+    Estudios,
+    Experiencia_laboral,
+    TipoDocumento,
+    TipoSangre
+)
 
 from dataclasses import fields
 
@@ -22,3 +28,11 @@ class EstudiosAdmin(admin.ModelAdmin):
 @admin.register(Experiencia_laboral)
 class ExperienciaAdmin(admin.ModelAdmin):
     list_display = ('n_documento','anio','mes','empresa')
+
+@admin.register(TipoDocumento)
+class TipoDocumentoAdmin(admin.ModelAdmin):
+    list_display = ('id','nombre')
+
+@admin.register(TipoSangre)
+class TipoSangreAdmin(admin.ModelAdmin):
+    list_display = ('id','nombre')

@@ -1,8 +1,11 @@
 drf-yasg
-Django
+Django==4.0
 django-extensions
+django-environ==0.8
 django-webpack-loader
 djangorestframework
 drf-spectacular
 Pillow
 rich
+setuptools
+wheels
