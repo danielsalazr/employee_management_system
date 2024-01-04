@@ -17,6 +17,8 @@ async function getDataTableInfo() {
     const url = 'empleados/'    
     const req = await callApi(url); // Consumo de Api 
 
+    console.log(req.data);
+
     // validar si la respuesta es ok
     if (req.res.status !== 200) {
         await swalErr('No se obtuvieron datos de inventario, por favor contacte al administrador.');
@@ -36,9 +38,9 @@ async function getDataTableInfo() {
             {"data": "nombre"},
             {"data": "apellido"},
             {"data": "telefono"},
-            {"data": "tipo_documento"},
+            {"data": "tipoDocumento"},
             {"data": "numero_documento"},
-            {"data": "tipo_sangre"}
+            {"data": "tipoSangre"}
             
         ]
     })

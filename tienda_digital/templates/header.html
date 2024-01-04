@@ -10,6 +10,7 @@
       {% comment %} <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
         
       </a> {% endcomment %}
+      {% comment %} <a href={% url 'empleados:index' %}>  {% endcomment %}
       <a href={% url 'empleados:index' %}> 
         <b class="display-4 ms-4" style="font-family: 'The Nautigal', cursive;">Employee Search</b>
       </a>
@@ -17,11 +18,11 @@
 
       
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
-        {% comment %} <li><a href="#" class="nav-link px-2 link-dark">Shop</a></li> {% endcomment %}
+        <li><a href="{% url 'empleados:consultar' %}" class="nav-link px-2 link-secondary">Buscar Empleado</a></li> 
+        {% comment %} <a href="{% url 'devoluciones' %}">Devoluciones</a> {% endcomment %}
+        {% comment %} <li><a href="#" class="nav-link px-2 link-dark">Features</a></li>
         <li><a href="#" class="nav-link px-2 link-dark">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Admin</a></li>
+        <li><a href="#" class="nav-link px-2 link-dark">Admin</a></li>  {% endcomment %}
       </ul>
 
       <div class="col-md-3 text-end me-4">

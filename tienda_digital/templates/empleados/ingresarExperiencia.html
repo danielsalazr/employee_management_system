@@ -9,17 +9,17 @@
         <div class="format row g-5">
           <div class="col-md-7 col-lg-8">
             <h4 class="mb-3">Formulario de ingreso de experiencia de Empleados</h4>
-            <form class="needs-validation" onsubmit="" enctype="multipart/form-data">
+            <form id="experienceForm" class="needs-validation" onsubmit="" enctype="multipart/form-data">
               <div class="row g-3">
                 <div class="col-sm-6">
-                  <label htmlfor="firstName" class="form-label"> Numero de documento: </label>
+                  <label htmlfor="firstName" class="form-label"> Numero de Documento: </label>
                   
                   <div class="input-group mb-3">
                     <input
                     onchange=""
                     type="number"
                     class="form-control"
-                    id="n_documento"
+                    id="num_documento"
                     name="n_documento"
                     placeholder=""
                     required
@@ -28,25 +28,36 @@
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <label htmlfor="lastName" class="form-label"> Año: </label>
+                  <label htmlfor="firstName" class="form-label">Empleado</label>
                   <input
                     onchange=""
-                    type="number"
+                    type="text"
                     class="form-control"
-                    id="anio"
-                    name="anio"
+                    id="empleado"
+                    placeholder=""
+                    readonly
+                  />
+                </div>
+                <div class="col-sm-6">
+                  <label htmlfor="lastName" class="form-label"> Fecha Inicial: </label>
+                  <input
+                    onchange=""
+                    type="date"
+                    class="form-control"
+                    id="fecha_inicio"
+                    name="fecha_inicio"
                     placeholder=""
                     required
                   />
                 </div>
                 <div class="col-sm-6">
-                  <label htmlfor="lastName" class="form-label"> Mes: </label>
+                  <label htmlfor="lastName" class="form-label"> Fecha Final: </label>
                   <input
                     onchange=""
-                    type ="number"
+                    type ="date"
                     class="form-control"
-                    id="mes"
-                    name="mes"
+                    id="fecha_final"
+                    name="fecha_final"
                     placeholder=""
                     required
                   />
@@ -115,9 +126,10 @@
                 </div>
               </div>
               <hr class="my-4" />
-              <button class="w-100 btn btn-primary btn-lg" id="SendExperience" >
+              <input type="submit" class="w-100 btn btn-primary btn-lg" id="btnStudies" value="Adjuntar estudios">
+              {% comment %} <button class="w-100 btn btn-primary btn-lg" id="SendExperience" >
                 Adjuntar experiencia
-              </button>
+              </button> {% endcomment %}
               </form>
 
             <a class="btn btn-warning btn-lg mt-4 w-100" href="{% url 'empleados:index' %}"> Regresar al menu principal</a>
@@ -130,6 +142,8 @@
     </div>
     
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    {% comment %} <script src="{% static 'js/employees/experience.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/employees/employee-studies.js' %}"></script>
     <script src="{% static 'js/employees/createEmployeeExperience.js' %}"></script>
 
 {% endblock container %}

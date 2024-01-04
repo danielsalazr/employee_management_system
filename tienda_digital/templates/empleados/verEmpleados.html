@@ -10,6 +10,7 @@
 {% comment %} {% endblock links %} {% endcomment %}
 
 {% block container %}
+    <link rel="stylesheet" href="{% static "css/datatable.css" %}">nk
 
 
     <h1>Listado de empleados </h1>
@@ -46,7 +47,7 @@
     
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-    <script src="{% static 'js/dataTableInventory.js' %}"></script>
+    <script src="{% static 'js/datatables/dataTableEmployees.js' %}"></script>
     {% endblock container %}
 
     

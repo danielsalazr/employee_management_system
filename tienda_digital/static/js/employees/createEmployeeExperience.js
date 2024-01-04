@@ -27,12 +27,16 @@ experienceForm.addEventListener("submit", (event) => {
   })
     .then(async (res) => {
       console.log(res.data);
-      swalconfirmationAndReload('Informacion ingresada con exito');
+      // swalconfirmationAndReload('Informacion ingresada con exito');
+      await swalconfirmation("Estudio creado con exito")
+      window.location.replace("/listaempleado/")
     })
     .catch(async (error) => {
       
       if (error.response.status == 404) {
         await swalErr("El numero de documento no coincide con ningun empleado");
       }
+
+      await swalErr("No se logro completar la operacion, por favor valide la informacion");
     });
 });

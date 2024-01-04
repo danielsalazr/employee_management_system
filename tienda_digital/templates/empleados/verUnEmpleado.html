@@ -10,8 +10,8 @@
     <img class="my-2" src="/media/{{empleados.foto}}" style="width:350px; heigth:400px; border-radius: 10px;" alt="">
     <p class="fs-4"><b>Telefono:</b>  {{empleados.telefono}}</p>
     <p class="fs-4"><b>Correo:</b>  {{empleados.correo}}</p>
-    <p class="fs-4"> <b>Tipo de documento:</b>  {{empleados.tipo_documento}} {{empleados.numero_documento}}</p>
-    <p class="fs-4"> <b>Tipo de Sangre: </b>  {{empleados.tipo_sangre}}</p>
+    <p class="fs-4"> <b>Tipo de documento:</b>  {{empleados.tipo_documento.nombre}}: {{empleados.numero_documento}}</p>
+    <p class="fs-4"> <b>Tipo de Sangre: </b>  {{empleados.tipo_sangre.nombre}}</p>
 
     
     {% if estudios %}
@@ -36,8 +36,8 @@
                 <tbody>
                     {% for titulos in estudios  %}
                     <tr>
-                        <td class="">{{titulos.anio }}</td>
-                        <td class="">{{titulos.mes}}</td>
+                        <td class="">{{titulos.fecha_inicio }}</td>
+                        <td class="">{{titulos.fecha_final }}</td>
                         <td class="">{{titulos.estudio}}</td>
                         <td class="">{{titulos.institucion}}</td>
                         <td class="">{{titulos.titulo_obtenido}}</td>
@@ -76,8 +76,8 @@
                 <tbody>
                     {% for jobs in experiencia  %}
                     <tr>
-                        <td class="">{{jobs.anio }}</td>
-                        <td class="">{{jobs.mes}}</td>
+                        <td class="">{{jobs.fecha_inicio }}</td>
+                        <td class="">{{jobs.fecha_final}}</td>
                         <td class="">{{jobs.empresa}}</td>
                         <td class="">{{jobs.jefe_inmediato}}</td>
                         <td class="">{{jobs.cargo}}</td>

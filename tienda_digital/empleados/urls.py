@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-from rest_framework import routers
+# from rest_framework import routers
 
 # router = routers.DefaultRouter()
 # router.register(r'employeexperience', views.EmployeeExperience)
@@ -27,7 +27,7 @@ urlpatterns = [
     path('actualizarempleado/', views.actualizarEmpleado,name='actualizacion'),
 
     path('consultarempleado/', views.consultarEmpleado ,name='consultar'),
-    path('consultarUno/', views.consultarUno ,name='consultarUno'),
+    path('consultarUno/', views.consultarUno , name='consultarUno'),
     path('consultar/', views.devolverConsulta ,name='retornoconsulta'),
 
     path('experiencia/', views.ExperienceView.as_view() ,name='experiencia'),

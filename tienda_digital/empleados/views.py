@@ -3,12 +3,18 @@ from django.shortcuts import render
 # from  .models import *
 from django.http import HttpResponse, JsonResponse
 from urllib import request, response
-from .serializers import EmpleadosSerializer, EstudiosSerializer, ExperienciaSerializer
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
-from django.db.models import Q
+from django.views import generic
+
+from django.conf import settings
+
+from django.db import models, connections, transaction
+from django.db.models import Max, QuerySet, Q
+
 
 from rest_framework.views import APIView
 from rest_framework import generics,status
@@ -20,15 +26,11 @@ from rest_framework import status
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .swaggerDocs import *
-
-from django.views import generic
-
-from django.conf import settings
-    
+from .swaggerDocs import *    
     
 from rich.console import Console
 console = Console()
+
 
 from .models import (
     Empleados,
@@ -37,7 +39,17 @@ from .models import (
     TipoDocumento,
     TipoSangre
 )
+
+
+from .serializers import (
+    EmpleadosSerializer,
+    EstudiosSerializer,
+    ExperienciaSerializer,
+)
 # Create your views here.
+
+class passTable(models.Model):
+    pass
 
 class IndexView(generic.TemplateView):
     template_name = "empleados/principal.html"
@@ -87,7 +99,7 @@ def consultarUno(request):
             
         #busqueda = Empleados.objects.filter(numero_documento__contains=documento)
         busqueda = Empleados.objects.get(numero_documento__contains=documento)
-        estudios = Estudios.objects.filter(num_documento=documento)
+        estudios = Estudios.objects.filter(num_documento=busqueda.id)
         experiencia = Experiencia_laboral.objects.filter(n_documento=documento)
         # print(busqueda.nombre)
         #busqueda.foto = settings.MEDIA_ROOT / str(busqueda.foto)
@@ -155,28 +167,47 @@ class EmpleadosView(APIView):
         Get employees information
 
         return employeers data
-        """
-        # print(id)
-        # print(args)
-        # print(id)
-        ccId = request.GET.get('numero_documento')
-        # print(ccId)
+        """        
 
-        if ccId :
+        if 'id' in  request.query_params:
+            ccId = request.query_params['id']
+            console.log(ccId)
             try:
-                personal = Empleados.objects.filter(Q(numero_documento=str(ccId)))#.order_by('-id')[:limit]
-                serializer = EmpleadosSerializer(personal, many =True)
-
-                return Response(serializer.data[0], status=status.HTTP_200_OK)
+                personal = Empleados.objects.filter(numero_documento=str(ccId))#.order_by('-id')[:limit]
+                if personal.exists() == False:
+                     raise Exception("not found")
+                # console.log(personal.values())
+                return Response(personal.values(), status=status.HTTP_200_OK)
             except: 
                 
                 return Response({"error": "Not Found!"}, status=status.HTTP_404_NOT_FOUND)
 
 
         else:
-            personal = Empleados.objects.all()
-            serializer = EmpleadosSerializer(personal, many =True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            # personal = Empleados.objects.all()
+            # serializer = EmpleadosSerializer(personal, many =True)
+
+            query = f"""
+            SELECT 
+                * ,
+                T0.nombre as "nombre",
+                T1.nombre as "tipoDocumento",
+                T2.nombre as "tipoSangre"
+                
+            FROM empleados_empleados T0
+            INNER JOIN `empleados_tipodocumento` T1 ON T1.id = T0.tipo_documento_id
+            INNER JOIN `empleados_tiposangre` T2 ON T2.id = T0.tipo_sangre_id
+        """
+
+        with connections['default'].cursor() as cursor:
+            cursor.execute(query)
+            columns = [col[0] for col in cursor.description]
+            results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+            return Response(results, status=status.HTTP_200_OK)
+
+            # queryset = QuerySet(model=passTable, using='default')
+            # queryset._result_cache = list(colaboradores)
 
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
@@ -316,12 +347,23 @@ class EmployeeExperience(APIView):
 
         """
         console.log(request.data)
-        experiencia_serializer = ExperienciaSerializer(data=request.data)
+
+        newData = dict(request.data)
+
+        newData["n_documento"] = Empleados.objects.get(numero_documento=request.data["n_documento"]).id
+
+
+        # newDict["n_documento"] = Empleados.objects.get(numero_documento=request.data["n_documento"]).id
+
+        console.log(newData)
+
+        experiencia_serializer = ExperienciaSerializer(data=newData)
         if experiencia_serializer.is_valid():
-            # print("True")
-            experiencia = experiencia_serializer.save()
+            experiencia_serializer.save()
 
             return Response(experiencia_serializer.data, status=status.HTTP_200_OK)
+
+        console.log(experiencia_serializer.errors)
         return Response(experiencia_serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 # class EmployeeExperience(ViewSet):
@@ -405,13 +447,18 @@ def crearEstudios(request):
 
     Create employee studies in database
     """
-    estudios_serializer = EstudiosSerializer(data=request.data)
-    # print(request.data)
-    # print(request.data['num_documento'])
-    if estudios_serializer.is_valid():
-        # print("True")
-        #q= Estudios.objects
-        #q.create(num_documento=Empleados.objects.get(numero_documento=), anio=2015, mes=10, estudio="Gramatica",institucion="USC",titulo_obtenido="master en gramatica")
-        estudios= estudios_serializer.save()
 
-    return Response(EstudiosSerializer(estudios).data)
+    console.log(request.data)
+    newData = dict(request.data)
+
+    newData["num_documento"] = Empleados.objects.get(numero_documento=request.data["num_documento"]).id
+
+    console.log(newData)
+
+    estudios_serializer = EstudiosSerializer(data=newData)
+
+    if estudios_serializer.is_valid():
+        estudios_serializer.save()
+
+    # return Response({"error" : "Error"}, status=status.HTTP_404_NOT_FOUND)
+    return Response(estudios_serializer.data, status=status.HTTP_200_OK)

@@ -15,6 +15,9 @@ class EmpleadosSerializer(serializers.ModelSerializer):
             'foto',
         ]
 
+        def to_representation(self, instance):
+            valor_actual = instance.campo_a_reemplazar
+
 class DeleteEmpleadosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Empleados
@@ -29,14 +32,15 @@ class EstudiosSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
 class ExperienciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Experiencia_laboral
         # fields = '__all__'
         fields = [
-            # 'n_documento',
-            'anio',
-            'mes',
+            'n_documento',
+            'fecha_inicio',
+            'fecha_final',
             'empresa',
             'jefe_inmediato',
             'cargo',

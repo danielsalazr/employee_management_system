@@ -1,0 +1,118 @@
+/* .contain-table-items{
+    width: 98% !important;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 12px;
+    height: 70vh !important;
+} */
+
+.dataTables_wrapper{
+    font-size: 1rem;
+    padding: 8px 0;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.dataTables_length{
+    margin: 16px;
+}
+
+.dataTables_filter{
+    margin: 16px;
+}
+
+.dataTables_info{
+    margin:  0 16px;
+}
+
+.dataTables_paginate{
+    margin:  0 16px;
+}
+
+.dataTables_filter  input{
+    background: #FFFFFF !important;
+}
+
+#myTable{
+    width: 100% !important;
+}
+
+/* #myTable_filter{
+  float: left;
+} */
+
+.dataTables_wrapper .no-footer{
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* div.dataTables_wrapper {
+        width: 800px;
+        margin: 0 auto;
+} */
+/* table {
+  display: block;
+  width: 100%;
+}
+table > thead {
+   display: block; 
+}
+
+table > body {
+  display: block; 
+} */
+/*------------Traido de inventario de hilos con iva---------------*/
+
+
+
+/* .contain-table{
+	padding: 0px;
+	border-radius: 10px;
+	overflow: scroll;
+	height: 280px;
+	margin-top: 10px;
+  border: 2px solid #25223b;
+}
+
+.contain-table::-webkit-scrollbar {
+  width: 7px;
+}
+
+.contain-table::-webkit-scrollbar-thumb {
+  background: #11101d;
+  border-radius: 10px;
+} */
+
+/* table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  margin-left: 0px;
+} */
+
+/* th, td {
+  padding: 8px;
+  font-size: 14px !important;
+} */
+
+/* tr:nth-child(even) {
+  background-color: #25223b28;
+} */
+
+/* thead {
+  background-color: #25223b;
+  border-bottom: solid 5px #11101d;
+  color: white;
+} */
+
+
+/* tr:hover td {
+  background-color: #565285a1;
+  transition: all .4s;
+  color: white;
+  cursor: cell;
+
+} */
+
+/*----------------------------------------------------------------*/

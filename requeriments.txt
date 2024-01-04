@@ -8,4 +8,4 @@ drf-spectacular
 Pillow
 rich
 setuptools
-wheels
+#wheels

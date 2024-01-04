@@ -22,12 +22,14 @@ class EmpleadoAdmin(admin.ModelAdmin):
 
 @admin.register(Estudios)
 class EstudiosAdmin(admin.ModelAdmin):
-    list_display = ('num_documento','anio','mes','estudio','institucion', 'titulo_obtenido')
+    pass
+    # list_display = ('num_documento','anio','mes','estudio','institucion', 'titulo_obtenido')
 
 
 @admin.register(Experiencia_laboral)
 class ExperienciaAdmin(admin.ModelAdmin):
-    list_display = ('n_documento','anio','mes','empresa')
+    pass
+    # list_display = ('n_documento','anio','mes','empresa')
 
 @admin.register(TipoDocumento)
 class TipoDocumentoAdmin(admin.ModelAdmin):
