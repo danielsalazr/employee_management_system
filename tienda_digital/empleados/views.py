@@ -14,6 +14,8 @@ from django.conf import settings
 
 from django.db import models, connections, transaction
 from django.db.models import Max, QuerySet, Q
+from django.http import QueryDict
+
 
 
 from rest_framework.views import APIView
@@ -100,7 +102,7 @@ def consultarUno(request):
         #busqueda = Empleados.objects.filter(numero_documento__contains=documento)
         busqueda = Empleados.objects.get(numero_documento__contains=documento)
         estudios = Estudios.objects.filter(num_documento=busqueda.id)
-        experiencia = Experiencia_laboral.objects.filter(n_documento=documento)
+        experiencia = Experiencia_laboral.objects.filter(n_documento=busqueda.id)
         # print(busqueda.nombre)
         #busqueda.foto = settings.MEDIA_ROOT / str(busqueda.foto)
         return render(
@@ -346,18 +348,14 @@ class EmployeeExperience(APIView):
         Creates Job experience in relation to an employee
 
         """
-        console.log(request.data)
 
         newData = dict(request.data)
+        newData["n_documento"] = [Empleados.objects.get(numero_documento=request.data["n_documento"]).id]
 
-        newData["n_documento"] = Empleados.objects.get(numero_documento=request.data["n_documento"]).id
+        getListValues = {key: values[0] for key, values in newData.items()}
 
 
-        # newDict["n_documento"] = Empleados.objects.get(numero_documento=request.data["n_documento"]).id
-
-        console.log(newData)
-
-        experiencia_serializer = ExperienciaSerializer(data=newData)
+        experiencia_serializer = ExperienciaSerializer(data=getListValues, many=False)
         if experiencia_serializer.is_valid():
             experiencia_serializer.save()
 
@@ -440,6 +438,8 @@ class StudiesView(generic.TemplateView):
         500: 'Error',
     },
 )
+
+
 @api_view(['POST'])
 def crearEstudios(request):
     """

@@ -56,3 +56,18 @@ a::after, a::before, a:hover {
 .removeSearch {
   font-size: 1.6em;
 }
+
+.employeeTable{
+  margin:8px auto;
+
+}
+.employeeTable td:first-child{
+  text-align: right;
+}
+.employeeTable td:nth-child(2){
+  text-align: left;
+}
+.employeeTable td {
+  padding: 2px 16px;
+  /* border: 1px solid #000000; */
+}

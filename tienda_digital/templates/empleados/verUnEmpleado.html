@@ -1,6 +1,9 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block container %}
+
+{% comment %} <link rel="stylesheet" href="{% static "css/" %}"> {% endcomment %}
 <div class="container text-center" >
 
     {% if empleados %}  
@@ -8,10 +11,23 @@
     <h1>{{empleados.nombre}} {{empleados.apellido}}</h1>
     {% comment %} <p>{{empleados.foto}}</p> {% endcomment %}
     <img class="my-2" src="/media/{{empleados.foto}}" style="width:350px; heigth:400px; border-radius: 10px;" alt="">
-    <p class="fs-4"><b>Telefono:</b>  {{empleados.telefono}}</p>
+
+    <table class="fs-5 employeeTable">
+        <thead>
+
+        </thead>
+        <tbody>
+            <tr><td><b>Telefono:</b></td>         <td>{{empleados.telefono}}</td></tr>
+            <tr><td><b>Correo:</b></td>           <td>{{empleados.correo}}</td></tr>
+            <tr><td><b>Tipo de documento:</b></td><td>{{empleados.tipo_documento.nombre}}: {{empleados.numero_documento}}</td></tr>
+            <tr><td><b>Tipo de Sangre:</b></td>   <td>{{empleados.tipo_sangre.nombre}}</td></tr>
+        </tbody>
+    </table>
+
+    {% comment %} <p class="fs-4"><b>Telefono:</b>  {{empleados.telefono}}</p>
     <p class="fs-4"><b>Correo:</b>  {{empleados.correo}}</p>
     <p class="fs-4"> <b>Tipo de documento:</b>  {{empleados.tipo_documento.nombre}}: {{empleados.numero_documento}}</p>
-    <p class="fs-4"> <b>Tipo de Sangre: </b>  {{empleados.tipo_sangre.nombre}}</p>
+    <p class="fs-4"> <b>Tipo de Sangre:</b>{{empleados.tipo_sangre.nombre}}</p> {% endcomment %}
 
     
     {% if estudios %}
@@ -25,8 +41,8 @@
             <table class="table table-striped table-hover table-bordered align-middle">
                 <thead>
                     <tr>
-                        <th scope="col">Año</th>
-                        <th scope="col">Mes</th>
+                        <th scope="col">Fecha Inicio</th>
+                        <th scope="col">Fecha Final</th>
                         <th scope="col">Estudio</th>
                         <th scope="col">Institucion</th>
                         <th scope="col">Titulo Obtenido</th>
@@ -63,8 +79,8 @@
             <table class="table table-striped table-hover table-bordered align-middle">
                 <thead>
                     <tr>
-                        <th scope="col">Año</th>
-                        <th scope="col">Mes</th>
+                        <th scope="col">Fecha Inicio</th>
+                        <th scope="col">Fecha Final</th>
                         <th scope="col">Empresa</th>
                         <th scope="col">Jefe</th>
                         <th scope="col">Cargo</th>
