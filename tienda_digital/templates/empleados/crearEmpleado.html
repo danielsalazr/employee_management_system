@@ -120,12 +120,12 @@
               </div>
               <hr class="my-4" />
             </form>
-            {% comment %} <button
+            <button
               class="w-100 btn btn-primary btn-lg"
               onclick="crearEmpleado()"
             >
               Crear Empleado
-            </button> {% endcomment %}
+            </button> 
             <a class="btn btn-warning  mt-4 w-100" href="{% url 'empleados:index' %}"> Regresar al menu principal</a>
           {% if success %}
           <p class="alert alert-danger">{{ success }}</p>

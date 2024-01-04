@@ -105,13 +105,13 @@
               <input type="submit" class="w-100 btn btn-primary btn-lg" id="btnStudies" value="Adjuntar estudios">
             </form>
 
-            <button
+            {% comment %} <button
               class="w-100 btn btn-primary btn-lg"
               onclick="crearEstudio()"
               id="btnStudies"
             >
               Adjuntar estudios
-            </button>
+            </button> {% endcomment %}
             <a class="btn btn-warning btn-lg mt-4 w-100" href="{% url 'empleados:index' %}">Regresar al menu principal</a>
           {% if success %}
           <p class="alert alert-danger">{{ success }}</p>
