@@ -49,7 +49,7 @@ studiesForm.addEventListener('submit', async function(e) {{
 
 
 function crearEstudio() {
-    const url = "http://127.0.0.1:8000/crearestudios/";
+    const url = "/crearestudios/";
     let data = {
       num_documento: 0,
       anio: "",

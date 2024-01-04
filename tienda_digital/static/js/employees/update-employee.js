@@ -36,7 +36,7 @@ const searchEmployee = async () => {
       return  setTimeout(numero_documento.focus(),2000)
   }
 
-  const url = `empleados/?numero_documento=${numero_documento.value}`;
+  const url = `empleados/?id=${numero_documento.value}`;
   const req = await callApi(url);
 
   if (req.res.status !== 200){
@@ -53,16 +53,18 @@ const searchEmployee = async () => {
       // setTimeout(numero_documento.focus(),2000)
       return 
   }
-  const data = req.data
+  const data = req.data[0]
+
+  console.log(data)
 
   setReadonlyInput(false);
   numero_documento.readOnly= true;
   numero_documento.value = data.numero_documento;
   nombre.value = data.nombre;
   apellido.value = data.apellido;
-  tipo_documento.value = data.tipo_documento;
+  tipo_documento.value = data.tipoDocumento;
   telefono.value = data.telefono;
-  sangre.value = data.tipo_sangre;
+  sangre.value = data.tipoSangre;
   correo.value = data.correo;
 
   removeSearchEmployeeToupdate.disabled = false;

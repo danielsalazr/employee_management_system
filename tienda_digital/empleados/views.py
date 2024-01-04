@@ -174,12 +174,33 @@ class EmpleadosView(APIView):
         if 'id' in  request.query_params:
             ccId = request.query_params['id']
             console.log(ccId)
+            query = f"""
+                SELECT 
+                    * ,
+                    T0.nombre as "nombre",
+                    T1.nombre as "tipoDocumento",
+                    T2.nombre as "tipoSangre"
+                    
+                FROM empleados_empleados T0
+                INNER JOIN `empleados_tipodocumento` T1 ON T1.id = T0.tipo_documento_id
+                INNER JOIN `empleados_tiposangre` T2 ON T2.id = T0.tipo_sangre_id
+                where T0.numero_documento = {ccId}
+            """
             try:
-                personal = Empleados.objects.filter(numero_documento=str(ccId))#.order_by('-id')[:limit]
-                if personal.exists() == False:
+
+                with connections['default'].cursor() as cursor:
+                    cursor.execute(query)
+                    columns = [col[0] for col in cursor.description]
+                    results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+                
+                # personal = Empleados.objects.filter(numero_documento=str(ccId))#.order_by('-id')[:limit]
+                
+                # if personal.exists() == False:
+                if results == []:
                      raise Exception("not found")
                 # console.log(personal.values())
-                return Response(personal.values(), status=status.HTTP_200_OK)
+                # return Response(personal.values(), status=status.HTTP_200_OK)
+                return Response(results, status=status.HTTP_200_OK)
             except: 
                 
                 return Response({"error": "Not Found!"}, status=status.HTTP_404_NOT_FOUND)
@@ -190,16 +211,16 @@ class EmpleadosView(APIView):
             # serializer = EmpleadosSerializer(personal, many =True)
 
             query = f"""
-            SELECT 
-                * ,
-                T0.nombre as "nombre",
-                T1.nombre as "tipoDocumento",
-                T2.nombre as "tipoSangre"
-                
-            FROM empleados_empleados T0
-            INNER JOIN `empleados_tipodocumento` T1 ON T1.id = T0.tipo_documento_id
-            INNER JOIN `empleados_tiposangre` T2 ON T2.id = T0.tipo_sangre_id
-        """
+                SELECT 
+                    * ,
+                    T0.nombre as "nombre",
+                    T1.nombre as "tipoDocumento",
+                    T2.nombre as "tipoSangre"
+                    
+                FROM empleados_empleados T0
+                INNER JOIN `empleados_tipodocumento` T1 ON T1.id = T0.tipo_documento_id
+                INNER JOIN `empleados_tiposangre` T2 ON T2.id = T0.tipo_sangre_id
+            """
 
         with connections['default'].cursor() as cursor:
             cursor.execute(query)
