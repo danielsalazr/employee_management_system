@@ -261,7 +261,8 @@ class EmpleadosView(APIView):
         if empleados_serializer.is_valid():
             empleado = empleados_serializer.save()
 
-        return Response(empleados_serializer.data)
+            return Response(empleados_serializer.data, status=status.HTTP_200_OK)
+        return Response({"error": "Not Found!"}, status=status.HTTP_404_NOT_FOUND)
 
 
     #por cuestiones de tiempo la actualizacion y elminacion formulario lo realizo sin verificacion de serializadores

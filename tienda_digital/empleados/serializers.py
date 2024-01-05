@@ -15,6 +15,11 @@ class EmpleadosSerializer(serializers.ModelSerializer):
             'foto',
         ]
 
+        extra_kwargs = {
+            'foto': {'required': False},
+            # 'acta_de_entrega': {'required': False},
+        }
+
         def to_representation(self, instance):
             valor_actual = instance.campo_a_reemplazar
 
@@ -34,9 +39,21 @@ class EstudiosSerializer(serializers.ModelSerializer):
 
 
 class ExperienciaSerializer(serializers.ModelSerializer):
+    # n_documento = serializers.CharField('')
+
     class Meta:
         model = Experiencia_laboral
         fields = '__all__'
+
+        # extra_kwargs = {
+        #     'n_documento': {
+        #         # 'required': False
+        #         # 'source'
+        #         },
+        #     # 'acta_de_entrega': {'required': False},
+        # }
+
+
         # fields = [
         #     'n_documento',
         #     'fecha_inicio',
